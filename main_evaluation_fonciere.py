@@ -7,10 +7,14 @@ eval_df = pd.read_csv("uniteevaluationfonciere.csv", dtype=str)
 addr_df = pd.read_csv("adresses.csv", dtype=str)
 inc_df = pd.read_csv("interventions_cleaned.csv")
 
-# --- Filter fire-related incidents ---
+# 🔥 Filter only incidents involving fire
 inc_df = inc_df[
-    inc_df["DESCRIPTION_GROUPE"].str.contains("feu", case=False, na=False) &
-    ~inc_df["DESCRIPTION_GROUPE"].str.contains("sans feu", case=False, na=False)
+    (
+        inc_df["DESCRIPTION_GROUPE"].str.contains("feu", case=False, na=False)
+    ) &
+    ~(
+        inc_df["DESCRIPTION_GROUPE"].str.contains("sans feu", case=False, na=False)
+    )
 ]
 
 # --- Clean and prepare eval_df ---
