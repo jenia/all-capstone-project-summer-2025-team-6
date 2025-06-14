@@ -3,6 +3,7 @@
 # all-capstone-project-summer-2025-team-6
 
 ## How to run:
+### evaluation_fonciere.py
 ```commandline
 python ./dataprep/evaluation_fonciere.py
 ```
@@ -13,6 +14,32 @@ This will clean up the evaluation fonciere data, located in these folders:
 ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
 DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
 ```
+### interventions.py
+```commandline
+python ./dataprep/interventions.py
+```
+
+This will clean up the interventions data, located in these folders
+
+```python
+ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
+ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned.csv'
+```
+
+### interventions_HAS_FIRE_binary_analysis.py
+
+```commandline
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
+```
+
+This will mark the interventions with fire, located in these folders
+
+```python
+ORIGINAL_FILE_NAME_INTERVENTIONS_CLEANED = './datasets/cleaned/interventions_cleaned.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.csv'
+```
+
 # Data Cleaning and Merging Pipeline
 
 1. dataprep/interventions.py:                                                                       We use the datasets:
