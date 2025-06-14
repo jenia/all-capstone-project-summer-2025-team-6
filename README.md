@@ -4,14 +4,14 @@
 
 ## How to run:
 ```commandline
-python evaluation_fonciere.py
+python ./dataprep/evaluation_fonciere.py
 ```
 
 This will clean up the evaluation fonciere data, located in these folders:
 
 ```python
-ORIGINAL_FILE_NAME_EVAL = '../datasets/raw/uniteevaluationfonciere.csv'
-DESTINATION_FILE_NAME = '../datasets/cleaned/eval_cleaned.csv'
+ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
 ```
 # Data Cleaning and Merging Pipeline
 
