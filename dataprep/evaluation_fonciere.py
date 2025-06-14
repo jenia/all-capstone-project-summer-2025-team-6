@@ -1,40 +1,15 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
-
-# In[2]:
-DIRECTORY = r'G:\.shortcut-targets-by-id\1uExmPmKnHKKlOfMdT70cXpwXvdf9aVEC\Capstone Project summer 2025- Team6\datasets'
-ORIGINAL_FILE_NAME_EVAL = 'uniteevaluationfonciere.csv'
-DESTINATION_FILE_NAME = 'eval_cleaned.csv' 
-
-
+ORIGINAL_FILE_NAME_EVAL = '../datasets/raw/uniteevaluationfonciere.csv'
+DESTINATION_FILE_NAME = '../datasets/cleaned/eval_cleaned.csv'
 
 df_eval = pd.read_csv(ORIGINAL_FILE_NAME_EVAL )
 
-
-# In[3]:
-
-
 df_eval.head()
 
-
-# In[4]:
-
-
 df_eval.info()
-
-
-# # Cleaning columns
-
-# In[5]:
-
-
-import matplotlib.pyplot as plt
 
 # Check distribution of ANNEE_CONSTRUCTION
 year_series = df_eval["ANNEE_CONSTRUCTION"]
@@ -52,12 +27,6 @@ plt.show()
 # Get descriptive statistics to help define outliers
 year_series.describe()
 
-
-# In[6]:
-
-
-import numpy as np
-
 # Mark unrealistic years as missing
 mask = (df_eval["ANNEE_CONSTRUCTION"] < 1800) | (df_eval["ANNEE_CONSTRUCTION"] > 2025)
 df_eval.loc[mask, "ANNEE_CONSTRUCTION"] = np.nan
@@ -68,18 +37,11 @@ print(f"Marked {total_invalid} entries ({total_invalid/len(df_eval)*100:.2f}%) a
 df_eval["ANNEE_CONSTRUCTION"].describe()
 
 
-
-# In[7]:
-
-
 # Replace missing ANNEE_CONSTRUCTION with the label "unknown" temporarily for categorical handling
 df_eval["ANNEE_CONSTRUCTION"] = df_eval["ANNEE_CONSTRUCTION"].fillna("unknown")
 
 # Confirm replacement
 df_eval["ANNEE_CONSTRUCTION"].value_counts(dropna=False).head()
-
-
-# In[8]:
 
 
 # Filter entries where ANNEE_CONSTRUCTION is "unknown"
@@ -91,38 +53,6 @@ unknown_usage_counts = unknown_years["LIBELLE_UTILISATION"].value_counts()
 # Show top usage types for unknown construction years
 unknown_usage_counts.head(10)
 
-
-#  Missing Construction Year Linked to Land Use
-# Among the records with previously missing construction year (now recovered), we observe:
-# 
-# LIBELLE_UTILISATION Example	Count	Explanation
-# Espace de terrain non aménagé et non exploité	11,546	Raw land, no construction → year not applicable
-# Terrain de stationnement pour automobiles	736	Surface parking, possibly no formal structure
-# Parc pour la récréation en général	650	Parks don’t have a construction year per se
-# Autres routes et voies publiques / Chemin de fer	945	Infrastructure — not linked to building dates
-# Stationnement intérieur (condo)	526	May have unclear building registration
-# Église, synagogue, mosquée et temple	159	Older buildings with incomplete registry
-# 
-# Even residential or commercial buildings like Logement (4,304) or Immeuble commercial (204) are affected — likely due to incomplete or unrecorded registry data.
-# 
-# ✅ Conclusion:
-# Many missing or invalid ANNEE_CONSTRUCTION values are genuinely hard to define, especially for vacant lots, parks, parking, or infrastructure. Some may result from registry gaps, particularly for older or atypical buildings.
-
-# Cleaning ANNEE_CONSTRUCTION (Building Year)
-# Converted the column to numeric, handling non-numeric entries like "unknown" safely.
-# 
-# Identified missing values specifically for buildings (e.g., logements or immeubles).
-# 
-# Imputed missing values using the median construction year of each borough (if applicable).
-# 
-# Labeled the rest (non-buildings or unknown cases) as "unknown".
-# 
-# Converted the final column to string, making it ready for modeling.
-
-# In[9]:
-
-
-import pandas as pd
 
 # Step 1: Convert ANNEE_CONSTRUCTION to numeric safely
 df_eval["_ANNEE_CONSTRUCTION_NUM"] = pd.to_numeric(df_eval["ANNEE_CONSTRUCTION"], errors="coerce")
@@ -155,12 +85,6 @@ print("  - Missing ANNEE_CONSTRUCTION replaced with median or 'unknown'")
 print("  - Column converted to string for modeling flexibility")
 print(df_eval["ANNEE_CONSTRUCTION"].value_counts(dropna=False).head())
 
-
-# In[11]:
-
-
-import matplotlib.pyplot as plt
-
 # Exclude 'unknown' for plotting and convert to numeric
 construction_years = df_eval[df_eval["ANNEE_CONSTRUCTION"] != "unknown"]["ANNEE_CONSTRUCTION"].astype(float)
 
@@ -176,7 +100,6 @@ plt.tight_layout()
 plt.show()
 
 
-# In[12]:
 
 
 # Define the columns to check for missing values
@@ -191,9 +114,6 @@ print(missing_summary)
 
 
 #  cleaning NOMBRE_LOGEMENT.  use a combination of borough + building type for the most contextual imputation.
-
-# In[13]:
-
 
 import numpy as np
 
@@ -222,8 +142,6 @@ print(f"✅ Imputation complete. Remaining missing values: {missing_final}")
 
 # Apply borough-level median fallback
 
-# In[14]:
-
 
 # Step 1: Compute borough-level medians
 borough_medians = df_eval.groupby("NO_ARROND_ILE_CUM")["NOMBRE_LOGEMENT"].median()
@@ -246,9 +164,6 @@ print(f"✅ Borough-level fallback complete. Final missing: {final_missing}")
 # 
 # Apply it to any rows where NOMBRE_LOGEMENT is still missing.
 
-# In[15]:
-
-
 # Step 1: Compute borough-level medians
 borough_medians = df_eval.groupby("NO_ARROND_ILE_CUM")["NOMBRE_LOGEMENT"].median()
 
@@ -269,9 +184,6 @@ print(f"✅ Borough-level fallback complete. Final missing: {final_missing}")
 # Cleaning ETAGE_HORS_SOL: Impute with median by (borough, building type).
 # 
 # Fallback to borough-level median if group-specific median is unavailable.
-
-# In[16]:
-
 
 # Step 1: Compute median ETAGE_HORS_SOL by (borough, building type)
 median_etages = (
@@ -304,15 +216,6 @@ df_eval["ETAGE_HORS_SOL"] = df_eval.apply(fallback_impute_etage, axis=1)
 # Step 6: Final check
 final_missing_etage = df_eval["ETAGE_HORS_SOL"].isna().sum()
 final_missing_etage
-
-
-# SUPERFICIE_BATIMENT (building surface area) :
-# 
-# Use median by (borough, building type)
-# 
-# Fallback to borough-only median
-
-# In[17]:
 
 
 # Step 1: Compute median SUPERFICIE_BATIMENT by (borough, building type)
@@ -359,72 +262,9 @@ columns_to_keep = [
 df_eval_cleaned = df_eval[columns_to_keep]
 
 # Save to CSV
-cleaned_path = "eval_cleaned.csv"
-df_eval_cleaned.to_csv(cleaned_path, index=False)
-
-cleaned_path
-
-
-# In[19]:
+df_eval_cleaned.to_csv(DESTINATION_FILE_NAME, index=False)
 
 
 df_eval_cleaned=pd.read_csv("eval_cleaned.csv")
-
-
-# In[20]:
-
-
 df_eval_cleaned.head()
-
-
-# In[21]:
-
-
 df_eval_cleaned.info()
-
-
-# | Feature               | Cleaned | Method                              |
-# | --------------------- | ------- | ----------------------------------- |
-# | `ANNEE_CONSTRUCTION`  | ✅       | Median + `"unknown"` fallback       |
-# | `NOMBRE_LOGEMENT`     | ✅       | Median by borough & type + fallback |
-# | `ETAGE_HORS_SOL`      | ✅       | Median by borough & type + fallback |
-# | `SUPERFICIE_BATIMENT` | ✅       | Median by borough & type + fallback |
-# 
-
-# # Merge with adresses 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# # Feature Engineering 
-
-# | Feature Name           | Relevance to Fire Risk                                                        |
-# | ---------------------- | ----------------------------------------------------------------------------- |
-# | **`AGE_BATIMENT`**     | Older buildings may have outdated wiring, insulation, or fire safety systems  |
-# | **`RATIO_SURFACE`**    | High ratios suggest dense footprint, less outdoor space — may affect spread   |
-# | **`DENSITE_LOGEMENT`** | Higher unit density often means more residents per m² = greater fire exposure |
-# | **`DENSITE_ETAGE`**    | Vertical intensity (e.g., high-rise vs bungalow) affects evacuation risk      |
-# | **`IS_UNKNOWN_YEAR`**  | Flag for missing age info — potentially linked to under-documented structures |
-# 
-# 
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
