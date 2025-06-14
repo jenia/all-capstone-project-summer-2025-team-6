@@ -2,6 +2,18 @@
 
 # all-capstone-project-summer-2025-team-6
 
+## How to run:
+```commandline
+python evaluation_fonciere.py
+```
+
+This will clean up the evaluation fonciere data, located in these folders:
+
+```python
+ORIGINAL_FILE_NAME_EVAL = '../datasets/raw/uniteevaluationfonciere.csv'
+DESTINATION_FILE_NAME = '../datasets/cleaned/eval_cleaned.csv'
+```
+
 1. dataprep/interventions.py:                                                                       We use the datasets:
 
 donneesouvertes-interventions-sim.csv and donneesouvertes-interventions-sim2020.csv saved in datasets/raw from the website https://donnees.montreal.ca/en/dataset/interventions-service-securite-incendie-montreal
