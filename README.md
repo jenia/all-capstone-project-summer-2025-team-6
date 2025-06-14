@@ -13,6 +13,7 @@ This will clean up the evaluation fonciere data, located in these folders:
 ORIGINAL_FILE_NAME_EVAL = '../datasets/raw/uniteevaluationfonciere.csv'
 DESTINATION_FILE_NAME = '../datasets/cleaned/eval_cleaned.csv'
 ```
+# Data Cleaning and Merging Pipeline
 
 1. dataprep/interventions.py:                                                                       We use the datasets:
 
