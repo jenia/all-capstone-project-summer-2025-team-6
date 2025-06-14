@@ -8,9 +8,13 @@ import pandas as pd
 
 
 # In[2]:
+DIRECTORY = r'G:\.shortcut-targets-by-id\1uExmPmKnHKKlOfMdT70cXpwXvdf9aVEC\Capstone Project summer 2025- Team6\datasets'
+ORIGINAL_FILE_NAME_EVAL = 'uniteevaluationfonciere.csv'
+DESTINATION_FILE_NAME = 'eval_cleaned.csv' 
 
 
-df_eval = pd.read_csv('uniteevaluationfonciere.csv')
+
+df_eval = pd.read_csv(ORIGINAL_FILE_NAME_EVAL )
 
 
 # In[3]:
