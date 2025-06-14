@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[20]:
+# In[36]:
 
 
 import pandas as pd
@@ -14,34 +14,34 @@ import geopandas as gpd
 
 
 
-# In[21]:
+# In[37]:
 
 
 DIRECTORY = r'G:\.shortcut-targets-by-id\1uExmPmKnHKKlOfMdT70cXpwXvdf9aVEC\Capstone Project summer 2025- Team6\datasets'
 ORIGINAL_FILE_NAME_EVAL_CLEANED = 'eval_cleaned.csv'
 ORIGINAL_FILE_NAME_ADRESSES = 'adresses.csv'
-DESTINATION_FILE_NAME = "eval_with_coords_feat_eng.csv"
+DESTINATION_FILE_NAME = "merged_evaluationfonciere_adresses.csv"
 
 
-# In[22]:
+# In[38]:
 
 
 eval_df = pd.read_csv(ORIGINAL_FILE_NAME_EVAL_CLEANED)
 
 
-# In[23]:
+# In[39]:
 
 
 addr_df = pd.read_csv(ORIGINAL_FILE_NAME_ADRESSES, dtype=str)
 
 
-# In[24]:
+# In[40]:
 
 
 #CIVIQUE_DEBUT is already numeric
 
 
-# In[25]:
+# In[41]:
 
 
 # --- Clean and prepare eval_df ---
@@ -50,7 +50,7 @@ eval_df["CIVIQUE_DEBUT"] = eval_df["CIVIQUE_DEBUT"].astype(int)
 eval_df["NOM_RUE_CLEAN"] = eval_df["NOM_RUE"].str.extract(r"^(.*?)(?:\s+\(.*)?$")[0].str.lower().str.strip()
 
 
-# In[26]:
+# In[42]:
 
 
 # --- Clean and prepare addr_df ---
@@ -61,7 +61,7 @@ addr_df["NOM_RUE_CLEAN"] = (
 )
 
 
-# In[27]:
+# In[43]:
 
 
 # --- Merge eval_df with addr_df to get coordinates ---
@@ -71,25 +71,25 @@ eval_with_coords = pd.merge(eval_df, addr_df,
                             how="left")
 
 
-# In[28]:
+# In[44]:
 
 
 eval_with_coords.head()
 
 
-# In[29]:
+# In[45]:
 
 
 eval_with_coords.to_csv("eval_with_coords.csv", index=False)
 
 
-# In[30]:
+# In[46]:
 
 
 eval_with_coords.info()
 
 
-# In[31]:
+# In[47]:
 
 
 # Check for missing coordinate values
@@ -104,7 +104,7 @@ print(f"📊 Percentage matched: {(1 - len(missing_coords) / len(eval_with_coord
 missing_coords.head()
 
 
-# In[32]:
+# In[48]:
 
 
 # --- Remove rows without coordinates before spatial join ---
@@ -113,7 +113,7 @@ eval_with_coords = eval_with_coords.dropna(subset=["LONGITUDE", "LATITUDE"])
 
 # # Convert to GeoDataFrame
 
-# In[33]:
+# In[49]:
 
 
 import geopandas as gpd
@@ -142,7 +142,7 @@ eval_gdf = gpd.GeoDataFrame(
 # | `IS_PARKING`       | Flag from `LIBELLE_UTILISATION`            | Identify low-risk structures            |
 # 
 
-# In[34]:
+# In[50]:
 
 
 # --- Load the merged dataset ---
@@ -181,7 +181,7 @@ eval_df[["AGE_BATIMENT", "LOGEMENT_DENSITY", "TERRAIN_RATIO", "IS_CONDO", "IS_PA
 # | **`IS_PARKING`**       | Parking areas (interior/exterior) usually have **lower fire risk**                     |
 # 
 
-# In[35]:
+# In[51]:
 
 
 # Add previously engineered features
@@ -197,6 +197,32 @@ output_path = "eval_with_coords_feat_eng.csv"
 eval_df.to_csv(output_path, index=False)
 
 output_path
+
+
+# In[53]:
+
+
+import pandas as pd
+
+# Load the cleaned evaluation foncière dataset
+eval_df = pd.read_csv("eval_with_coords_feat_eng.csv")
+
+# List of columns to drop (redundant or irrelevant for spatial analysis)
+columns_to_drop = [
+    'MATRICULE83', 'ID_ADRESSE', 'TEXTE', 'ADDR_DE', 'ADDR_A', 'X', 'Y',
+    'NOM_RUE_CLEAN', 'ORIENTATION', 'LIEN', 'HAUTEUR', 'GENERIQUE', 'ANGLE',
+    'LETTRE_DEBUT', 'LETTRE_FIN'
+]
+
+# Drop the columns
+eval_df_reduced = eval_df.drop(columns=columns_to_drop)
+
+# Optional: Save reduced version
+eval_df_reduced.to_csv("merged_evaluationfonciere_adresses.csv", index=False)
+
+# Check shape and column names
+print("✅ Reduced dataset shape:", eval_df_reduced.shape)
+print("🧾 Remaining columns:\n", eval_df_reduced.columns.tolist())
 
 
 # In[ ]:
