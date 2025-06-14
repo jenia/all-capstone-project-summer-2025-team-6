@@ -4,10 +4,9 @@ import os
 from typing import Union #allows to specific "or" conditions for argument types
 from datetime import datetime
 
-DIRECTORY = r'G:\.shortcut-targets-by-id\1uExmPmKnHKKlOfMdT70cXpwXvdf9aVEC\Capstone Project summer 2025- Team6\datasets'
-ORIGINAL_FILE_NAME_2023_2025 = 'donneesouvertes-interventions-sim.csv'
-ORIGINAL_FILE_NAME_2022_BEFORE = 'donneesouvertes-interventions-sim2020.csv'
-DESTINATION_FILE_NAME = 'interventions_cleaned.csv'
+ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
+ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned.csv'
 
 def is_date_format(string_input: str, date_format: str) -> bool:
     """
@@ -49,16 +48,10 @@ def convert_date_format(date_string: str) -> str:
         except ValueError:
             return date_string  # Return original string for invalid dates
 print("Loading data ...")
-df = pd.read_csv(os.path.join(DIRECTORY,ORIGINAL_FILE_NAME_2023_2025))
-df_old=pd.read_csv(os.path.join(DIRECTORY,ORIGINAL_FILE_NAME_2022_BEFORE))
+df = pd.read_csv(ORIGINAL_FILE_NAME_2023_2025)
+df_old=pd.read_csv(ORIGINAL_FILE_NAME_2022_BEFORE)
 df=pd.concat([df,df_old])
 
-# add a column to visualize dates with non-standard format
-# df['IS_VALID_DATE'] = df['CREATION_DATE_TIME'].apply(
-#     lambda x: is_date_format(x, '%Y-%m-%dT%H:%M:%S')
-# )
-
-# df[df['IS_VALID_DATE']==False]
 
 #standardizes date format (we don't really care about the time component)
 print("Fixing date times ...")
@@ -75,7 +68,7 @@ df=df.drop(['MTM8_X','MTM8_Y','NOMBRE_UNITES'],axis=1)
 print("Dropping rows not related to fire or with null DESCRIPTION_GROUPE ...")
 df = df[~df['DESCRIPTION_GROUPE'].isnull() & ~df['DESCRIPTION_GROUPE'].isin(['SANS FEU','NOUVEAU','1-REPOND','FAU-ALER'])]
 print(f"Saving as {DESTINATION_FILE_NAME}")
-df.to_csv(os.path.join(DIRECTORY,DESTINATION_FILE_NAME),index=False)
+df.to_csv(os.path.join(DESTINATION_FILE_NAME),index=False)
 
 print(df.info())
 print(df.shape)

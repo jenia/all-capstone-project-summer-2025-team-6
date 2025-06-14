@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[9]:
 
 
 import pandas as pd
@@ -11,13 +11,14 @@ from typing import Union #allows to specific "or" conditions for argument types
 from datetime import datetime
 
 
-# In[2]:
+# In[10]:
 
 
-DIRECTORY = r'G:\.shortcut-targets-by-id\1uExmPmKnHKKlOfMdT70cXpwXvdf9aVEC\Capstone Project summer 2025- Team6\datasets'
-ORIGINAL_FILE_NAME_2023_2025 = 'donneesouvertes-interventions-sim.csv'
-ORIGINAL_FILE_NAME_2022_BEFORE = 'donneesouvertes-interventions-sim2020.csv'
-DESTINATION_FILE_NAME = 'interventions_cleaned.csv'
+ORIGINAL_FILE_NAME_INTERVENTIONS_CLEANED = './datasets/cleaned/interventions_cleaned.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.csv'
+ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
+ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned.csv'
 
 
 # In[3]:
@@ -72,8 +73,8 @@ def convert_date_format(date_string: str) -> str:
 
 
 print("Loading data ...")
-df = pd.read_csv(os.path.join(DIRECTORY,ORIGINAL_FILE_NAME_2023_2025))
-df_old=pd.read_csv(os.path.join(DIRECTORY,ORIGINAL_FILE_NAME_2022_BEFORE))
+df = pd.read_csv(ORIGINAL_FILE_NAME_2023_2025)
+df_old=pd.read_csv(ORIGINAL_FILE_NAME_2022_BEFORE)
 df=pd.concat([df,df_old])
 
 
