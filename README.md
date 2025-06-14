@@ -32,5 +32,8 @@ We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in
 
 4. dataprep/interventions_HAS_FIRE_binary_analysis.py:  to the dataset in datasets/cleaned/interventions_cleaned.csv   we add a HAS_FIRE column to categorize fire incidents  in DESCRIPTION_GROUPE The elements AUTREFEU, INCENDIE and Alarmes-incendies as  1,  0 otherwise   we output datasets/cleaned/interventions_cleaned_with_has_fire.csv
 
-5.datamerge/interventions+eval+adresses  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with merged_evaluationfonciere_adresses.csv  in datasets/merged    
+5.datamerge/merged_interventions_evaluationfonciere_adresses.py  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with datasets/merged/merged_evaluationfonciere_adresses.csv  
 
+
+
+Remark: I have some mistakes to be fixed in the read_csv if you are using visual studio since i was working in jupyternotebook all the time. Check all this if you want to use the github same enviroment folder only to located the files
