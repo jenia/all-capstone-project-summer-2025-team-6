@@ -13,12 +13,11 @@ We clean in dataprep/interventions.py and we output the dataset:  interventions_
 
 We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in datasets/cleaned.
 
-3. datamerge/eval+adresses+feat_eng.py : We merge eval_cleaned.csv and adresses.csv and we do some feature engineering in datamerge/eval+adresses+feat_eng.py we output the file eval_with_coords_feat_eng.csv  
+3. datamerge/merge_evaluationfonciere_adresses.py : We merge eval_cleaned.csv and adresses.csv and we do some feature engineering in datamerge/merge_evaluationfonciere_adresses.py we output the file merged_evaluationfonciere_adresses.csv  in datasets/merged
 
-you can find it on googledrive   (it is not uploaded in the datasets/cleaned since it exceeds 100MB) https://drive.google.com/file/d/1SzJnud-P_lWn8BLV8-2hdU_QewdPsZ09/view?usp=drive_link  
-
+ 
 
 4. dataprep/interventions_HAS_FIRE_binary_analysis.py:  to the dataset in datasets/cleaned/interventions_cleaned.csv   we add a HAS_FIRE column to categorize fire incidents  in DESCRIPTION_GROUPE The elements AUTREFEU, INCENDIE and Alarmes-incendies as  1,  0 otherwise   we output datasets/cleaned/interventions_cleaned_with_has_fire.csv
 
-5.datamerge/interventions+eval+adresses  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with eval_with_coords_feat_eng.csv     
+5.datamerge/interventions+eval+adresses  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with merged_evaluationfonciere_adresses.csv  in datasets/merged    
 
