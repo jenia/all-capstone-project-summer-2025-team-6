@@ -2,8 +2,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-ORIGINAL_FILE_NAME_EVAL = '../datasets/raw/uniteevaluationfonciere.csv'
-DESTINATION_FILE_NAME = '../datasets/cleaned/eval_cleaned.csv'
+ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
+DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
 
 df_eval = pd.read_csv(ORIGINAL_FILE_NAME_EVAL )
 
