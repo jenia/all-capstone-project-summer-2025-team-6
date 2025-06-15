@@ -7,7 +7,7 @@ You need to run these 4 files:
 
 ```commandline
 python ./dataprep/evaluation_fonciere.py
-python ./dataprep/interventions.py
+python ./dataprep/interventions.py// You don't need to run as I replaced in the end with interventions_HAS_FIRE_binary_analysis.py
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
 // TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
 python ./dataprep/main_evaluation_fonciere.py
@@ -69,24 +69,22 @@ OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
 ```
 # Data Cleaning and Merging Pipeline
 
-1. dataprep/interventions.py:                                                                       We use the datasets:
-
-donneesouvertes-interventions-sim.csv and donneesouvertes-interventions-sim2020.csv saved in datasets/raw from the website https://donnees.montreal.ca/en/dataset/interventions-service-securite-incendie-montreal
-
-We clean in dataprep/interventions.py and we output the dataset:  interventions_cleaned.csv in datasets/cleaned.
 
 
-2. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
+
+1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
 We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in datasets/cleaned.
 
-3. datamerge/merge_evaluationfonciere_adresses.py : We merge eval_cleaned.csv and adresses.csv and we do some feature engineering in datamerge/merge_evaluationfonciere_adresses.py we output the file merged_evaluationfonciere_adresses.csv  in datasets/merged
+2. datamerge/merge_evaluationfonciere_adresses.py : We merge eval_cleaned.csv and adresses.csv and we do some feature engineering in datamerge/merge_evaluationfonciere_adresses.py we output the file merged_evaluationfonciere_adresses.csv  in datasets/merged
 
  
 
-4. dataprep/interventions_HAS_FIRE_binary_analysis.py:  to the dataset in datasets/cleaned/interventions_cleaned.csv   we isolated records labeled as fire-related specific  in DESCRIPTION_GROUPE using categories AUTREFEU, INCENDIE   we output datasets/cleaned/interventions_cleaned_with_has_fire.csv
+3. dataprep/interventions_HAS_FIRE_binary_analysis.py:        We use the datasets:
 
-5.datamerge/merged_interventions_evaluationfonciere_adresses.py  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with datasets/merged/merged_evaluationfonciere_adresses.csv    The output is merged_interventions_evaluationfonciere_adresses_binary_analysis_1.csv  which has some feature engineering but we can add more for sure
+donneesouvertes-interventions-sim.csv and donneesouvertes-interventions-sim2020.csv saved in datasets/raw from the website https://donnees.montreal.ca/en/dataset/interventions-service-securite-incendie-montreal    we isolated records labeled as fire-related specific  in DESCRIPTION_GROUPE using categories AUTREFEU, INCENDIE   we output datasets/cleaned/interventions_cleaned_with_has_fire.csv
+
+4.datamerge/merged_interventions_evaluationfonciere_adresses.py  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with datasets/merged/merged_evaluationfonciere_adresses.csv    The output is merged_interventions_evaluationfonciere_adresses_binary_analysis_1.csv  which has some feature engineering but we can add more for sure
 
 
 
