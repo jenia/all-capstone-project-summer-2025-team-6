@@ -4,9 +4,11 @@ import os
 from typing import Union #allows to specific "or" conditions for argument types
 from datetime import datetime
 
-ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
-ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
-DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned.csv'
+dirname = os.path.dirname(__file__)
+
+ORIGINAL_FILE_NAME_2023_2025 = os.path.join(dirname,'..','datasets','raw','donneesouvertes-interventions-sim.csv')
+ORIGINAL_FILE_NAME_2022_BEFORE = os.path.join(dirname,'..','datasets','raw','donneesouvertes-interventions-sim2020.csv')
+DESTINATION_FILE_NAME = os.path.join(dirname,'..','datasets','cleaned','interventions_cleaned.csv')
 
 def is_date_format(string_input: str, date_format: str) -> bool:
     """
