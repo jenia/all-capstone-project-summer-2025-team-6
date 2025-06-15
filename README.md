@@ -60,7 +60,7 @@ eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
 addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
 inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
 // TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
-OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
+OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"=====> I did this look at datasets/merged/merged_interventions_evaluationfonciere_adresses_binary_analysis_1.csv=====> please try to review the work in general if possible we all can do mistakes...
 
 ```
 # Data Cleaning and Merging Pipeline
