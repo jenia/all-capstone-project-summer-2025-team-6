@@ -265,6 +265,6 @@ df_eval_cleaned = df_eval[columns_to_keep]
 df_eval_cleaned.to_csv(DESTINATION_FILE_NAME, index=False)
 
 
-df_eval_cleaned=pd.read_csv("eval_cleaned.csv")
+df_eval_cleaned=pd.read_csv(DESTINATION_FILE_NAME)
 df_eval_cleaned.head()
 df_eval_cleaned.info()
