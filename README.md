@@ -9,10 +9,11 @@ You need to run these 4 files:
 python ./dataprep/evaluation_fonciere.py
 python ./dataprep/interventions.py
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
+// TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
 python ./dataprep/main_evaluation_fonciere.py
 ```
 
-### evaluation_fonciere.py
+- evaluation_fonciere.py
 ```commandline
 python ./dataprep/evaluation_fonciere.py
 ```
@@ -23,7 +24,7 @@ This will clean up the evaluation fonciere data, located in these folders:
 ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
 DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
 ```
-### interventions.py
+- interventions.py
 ```commandline
 python ./dataprep/interventions.py
 ```
@@ -36,7 +37,7 @@ ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-s
 DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned.csv'
 ```
 
-### interventions_HAS_FIRE_binary_analysis.py
+- interventions_HAS_FIRE_binary_analysis.py
 
 ```commandline
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
@@ -49,7 +50,7 @@ ORIGINAL_FILE_NAME_INTERVENTIONS_CLEANED = './datasets/cleaned/interventions_cle
 DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.csv'
 ```
 
-### main_evaluation_fonciere.py
+- main_evaluation_fonciere.py
 
 ```commandline
 python ./dataprep/main_evaluation_fonciere.py
@@ -62,6 +63,7 @@ This will mark the evaluations fonciere with fire or not
 eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
 addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
 inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
+// TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
 OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
 
 ```
