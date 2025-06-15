@@ -9,7 +9,7 @@ You need to run these 4 files:
 python ./dataprep/evaluation_fonciere.py
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
 // TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
-python ./dataprep/main_evaluation_fonciere.py
+python ./dataprep/main_evaluation_fonciere.py===>I did this look at added code merged_interventions_evaluationfonciere_adresses.py
 ```
 
 - evaluation_fonciere.py
