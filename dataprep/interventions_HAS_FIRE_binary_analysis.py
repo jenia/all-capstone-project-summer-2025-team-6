@@ -1,17 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[9]:
-
-
 import pandas as pd
 import numpy as np
 import os
 from typing import Union #allows to specific "or" conditions for argument types
 from datetime import datetime
-
-
-# In[10]:
 
 
 ORIGINAL_FILE_NAME_INTERVENTIONS_CLEANED = './datasets/cleaned/interventions_cleaned.csv'
@@ -21,7 +15,7 @@ ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-s
 DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned.csv'
 
 
-# In[3]:
+# In[18]:
 
 
 def is_date_format(string_input: str, date_format: str) -> bool:
@@ -44,7 +38,7 @@ def is_date_format(string_input: str, date_format: str) -> bool:
         return False
 
 
-# In[4]:
+# In[19]:
 
 
 def convert_date_format(date_string: str) -> str:
@@ -69,7 +63,7 @@ def convert_date_format(date_string: str) -> str:
             return date_string  # Return original string for invalid dates
 
 
-# In[5]:
+# In[20]:
 
 
 print("Loading data ...")
@@ -78,7 +72,7 @@ df_old=pd.read_csv(ORIGINAL_FILE_NAME_2022_BEFORE)
 df=pd.concat([df,df_old])
 
 
-# In[6]:
+# In[21]:
 
 
 # add a column to visualize dates with non-standard format
@@ -94,7 +88,7 @@ df['CREATION_DATE_TIME']=df['CREATION_DATE_TIME'].apply(convert_date_format)
 df['CREATION_DATE_TIME']=df['CREATION_DATE_TIME'].apply(datetime.fromisoformat)
 
 
-# In[7]:
+# In[22]:
 
 
 # commented out to avoid rewriting over existing file
@@ -104,17 +98,18 @@ print("Dropping columns...")
 df=df.drop(['MTM8_X','MTM8_Y'],axis=1)
 
 
-# In[8]:
+# In[23]:
 
 
 # 🔥 Define fire-related categories based on known labels
-fire_categories = ["Alarmes-incendies", "AUTREFEU", "INCENDIE"]
+#fire_categories = ["Alarmes-incendies", "AUTREFEU", "INCENDIE"]#unrealistic number of houses with fire so we remove alarmes incendies
+fire_categories = [ "AUTREFEU", "INCENDIE"]
 print("Filter only fire incidents...")
 # Filter only fire incidents
 df = df[df["DESCRIPTION_GROUPE"].isin(fire_categories)]
 
 
-# In[9]:
+# In[24]:
 
 
 # Count total fire incidents
@@ -124,7 +119,7 @@ fire_incident_count = len(df)
 print(f"🔥 Total fire incidents: {fire_incident_count:,}")
 
 
-# In[10]:
+# In[25]:
 
 
 # Count by DESCRIPTION_GROUPE
@@ -134,7 +129,7 @@ print("🔥 Fire incident breakdown by type:")
 print(category_counts)
 
 
-# In[11]:
+# In[26]:
 
 
 # 📋 Check missing values
@@ -154,7 +149,7 @@ print("📉 Missing values summary:")
 print(missing_report)
 
 
-# In[13]:
+# In[27]:
 
 
 # 🔍 Check missing values in NOMBRE_UNITES
@@ -166,13 +161,13 @@ print(f"🔢 Missing NOMBRE_UNITES values: {missing_units:,} out of {total_rows:
 print(f"📉 Missing percentage: {missing_pct:.2f}%")
 
 
-# In[12]:
+# In[28]:
 
 
 df.head()
 
 
-# In[15]:
+# In[29]:
 
 
 # 💾 Save the filtered dataset with fire categories

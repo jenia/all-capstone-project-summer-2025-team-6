@@ -57,7 +57,7 @@ We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in
 
  
 
-4. dataprep/interventions_HAS_FIRE_binary_analysis.py:  to the dataset in datasets/cleaned/interventions_cleaned.csv   we isolated records labeled as fire-related specific  in DESCRIPTION_GROUPE using categories AUTREFEU, INCENDIE and Alarmes-incendies   we output datasets/cleaned/interventions_cleaned_with_has_fire.csv
+4. dataprep/interventions_HAS_FIRE_binary_analysis.py:  to the dataset in datasets/cleaned/interventions_cleaned.csv   we isolated records labeled as fire-related specific  in DESCRIPTION_GROUPE using categories AUTREFEU, INCENDIE   we output datasets/cleaned/interventions_cleaned_with_has_fire.csv
 
 5.datamerge/merged_interventions_evaluationfonciere_adresses.py  : merge  datasets/cleaned/interventions_cleaned_with_has_fire.csv  with datasets/merged/merged_evaluationfonciere_adresses.csv  
 
