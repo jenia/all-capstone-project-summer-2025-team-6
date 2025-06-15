@@ -3,6 +3,15 @@
 # all-capstone-project-summer-2025-team-6
 
 ## How to run:
+You need to run these 4 files:
+
+```commandline
+python ./dataprep/evaluation_fonciere.py
+python ./dataprep/interventions.py
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
+python ./dataprep/main_evaluation_fonciere.py
+```
+
 ### evaluation_fonciere.py
 ```commandline
 python ./dataprep/evaluation_fonciere.py
@@ -40,6 +49,22 @@ ORIGINAL_FILE_NAME_INTERVENTIONS_CLEANED = './datasets/cleaned/interventions_cle
 DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.csv'
 ```
 
+### main_evaluation_fonciere.py
+
+```commandline
+python ./dataprep/main_evaluation_fonciere.py
+
+```
+
+This will mark the evaluations fonciere with fire or not
+
+```commandline
+eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
+addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
+inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
+OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
+
+```
 # Data Cleaning and Merging Pipeline
 
 1. dataprep/interventions.py:                                                                       We use the datasets:
