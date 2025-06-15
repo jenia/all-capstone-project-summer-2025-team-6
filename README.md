@@ -23,9 +23,9 @@ This will clean up the evaluation fonciere data, located in these folders:
 ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
 DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
 ```
-- interventions.py
+- interventions_HAS_FIRE_binary_analysis.py
 ```commandline
-python ./dataprep/interventions.py
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
 ```
 
 This will clean up the interventions data, located in these folders
