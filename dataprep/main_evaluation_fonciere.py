@@ -6,7 +6,7 @@ from shapely.geometry import Point
 eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
 addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
 inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
-OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
+OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates_and_date.csv"
 
 # 🔥 Filter only incidents involving fire
 inc_df = inc_df[
