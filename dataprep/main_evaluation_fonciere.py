@@ -10,17 +10,15 @@ OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
 
 # 🔥 Filter only incidents involving fire
 inc_df = inc_df[
-    (
-        inc_df["DESCRIPTION_GROUPE"].str.contains("feu", case=False, na=False)
-    ) &
-    ~(
-        inc_df["DESCRIPTION_GROUPE"].str.contains("sans feu", case=False, na=False)
-    )
+    inc_df["DESCRIPTION_GROUPE"].str.contains("INCENDIE", case=False, na=False)
 ]
 
 # --- Clean and prepare eval_df ---
 eval_df["CIVIQUE_DEBUT"] = eval_df["CIVIQUE_DEBUT"].str.strip().astype(int)
 eval_df["NOM_RUE_CLEAN"] = eval_df["NOM_RUE"].str.extract(r"^(.*?)(?:\s+\(.*)?$")[0].str.lower().str.strip()
+
+# ✅ Save original now that NOM_RUE_CLEAN exists
+original_eval_df = eval_df.copy()
 
 # --- Clean and prepare addr_df ---
 addr_df["ADDR_DE"] = addr_df["ADDR_DE"].astype(int)
@@ -47,6 +45,7 @@ eval_gdf = gpd.GeoDataFrame(
 )
 
 # --- Convert incidents to GeoDataFrame ---
+inc_df["CREATION_DATE_TIME"] = pd.to_datetime(inc_df["CREATION_DATE_TIME"], errors='coerce')
 incident_gdf = gpd.GeoDataFrame(
     inc_df,
     geometry=gpd.points_from_xy(inc_df["LONGITUDE"], inc_df["LATITUDE"]),
@@ -56,26 +55,36 @@ incident_gdf = gpd.GeoDataFrame(
 # --- Project both to meters for spatial operations ---
 eval_gdf = eval_gdf.to_crs(epsg=32188)
 incident_gdf = incident_gdf.to_crs(epsg=32188)
-
-# --- Buffer fire incidents by 100 meters ---
 incident_gdf["buffer"] = incident_gdf.geometry.buffer(100)
 incident_buffer_gdf = incident_gdf.set_geometry("buffer")
 
-# --- Spatial join: find properties within 100m of a fire incident ---
+# --- Spatial join: match each home to nearby fires ---
 joined = gpd.sjoin(eval_gdf, incident_buffer_gdf, predicate='within', how='inner')
+joined = joined.rename(columns={"CREATION_DATE_TIME": "fire_date"})
+joined["fire"] = True
 
-# --- Use unique matched ID_UEV set to mark fires ---
-matched_ids = set(joined["ID_UEV"])
+# --- Extract relevant fire info ---
+fire_records = joined[["ID_UEV", "fire_date"]].copy()
+fire_records["fire"] = True
 
-# --- Back to original eval_df (including unmatched rows) ---
-# Assign fire flag based on ID_UEV
-eval_df["fire"] = eval_df["ID_UEV"].isin(matched_ids)
+# --- Merge fire flags and fire dates into full dataset ---
+final_df = pd.merge(original_eval_df, fire_records, on="ID_UEV", how="left")
+final_df["fire"] = final_df["fire"].fillna(False)
+final_df["fire_date"] = pd.to_datetime(final_df["fire_date"])
 
-# --- Merge coordinates (if available) back into eval_df ---
-eval_df = pd.merge(eval_df, addr_df[["ADDR_DE", "NOM_RUE_CLEAN", "LONGITUDE", "LATITUDE"]],
-                   left_on=["CIVIQUE_DEBUT", "NOM_RUE_CLEAN"],
-                   right_on=["ADDR_DE", "NOM_RUE_CLEAN"],
-                   how="left")
+# --- Add coordinates back (if available) ---
+addr_df_subset = addr_df[["ADDR_DE", "NOM_RUE_CLEAN", "LONGITUDE", "LATITUDE"]]
+final_df = pd.merge(final_df,
+    addr_df_subset,
+    left_on=["CIVIQUE_DEBUT", "NOM_RUE_CLEAN"],
+    right_on=["ADDR_DE", "NOM_RUE_CLEAN"],
+    how="left"
+)
 
-# --- Save final result ---
-eval_df.to_csv(OUTPUT_FILE, index=False)
+# --- Save full dataset ---
+final_df.to_csv(OUTPUT_FILE, index=False)
+
+# --- Summary ---
+print("Houses with incident:", final_df["fire"].sum())
+print("Houses without incident:", (~final_df["fire"]).sum())
+print("Houses total:", len(final_df))
