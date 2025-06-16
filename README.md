@@ -11,56 +11,8 @@ python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
 python ./dataprep/main_evaluation_fonciere.py
 ```
 
-- evaluation_fonciere.py
-```commandline
-python ./dataprep/evaluation_fonciere.py
-```
-
-This will clean up the evaluation fonciere data, located in these folders:
-
-```python
-ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
-DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
-```
-- interventions_HAS_FIRE_binary_analysis.py
-```commandline
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-```
-
-This will clean up the interventions data, located in these folders
-
-
-
-- interventions_HAS_FIRE_binary_analysis.py
-
-```commandline
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-```
-
-and  will mark the interventions with fire, located in these folders
-
-```python
-ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
-ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
-DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.csv'
-```
-
-- main_evaluation_fonciere.py
-
-```commandline
-python ./dataprep/main_evaluation_fonciere.py
-
-```
-
-This will mark the evaluations fonciere with fire or not
-
-```commandline
-eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
-addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
-inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
-OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
-
-```
+**You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
+I did not commit it because it's 100MB big.**
 # Data Cleaning and Merging Pipeline
 
 
