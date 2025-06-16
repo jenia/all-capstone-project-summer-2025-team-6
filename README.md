@@ -3,7 +3,7 @@
 # all-capstone-project-summer-2025-team-6
 
 ## How to run:
-You need to run these 4 files:
+You need to run these 3 files:
 
 ```commandline
 python ./dataprep/evaluation_fonciere.py
