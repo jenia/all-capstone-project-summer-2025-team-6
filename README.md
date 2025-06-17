@@ -2,6 +2,9 @@
 
 # all-capstone-project-summer-2025-team-6
 
+# Pipeline diagram
+
+![img.png](images/img.png)
 ## How to run:
 You need to run these 3 files:
 
