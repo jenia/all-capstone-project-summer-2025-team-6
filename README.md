@@ -2,7 +2,7 @@
 
 # all-capstone-project-summer-2025-team-6
 
-## Pipeline diagram
+## [Pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
 
 ![img.png](images/img.png)
 ## How to run:
