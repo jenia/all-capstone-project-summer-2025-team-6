@@ -2,7 +2,7 @@
 
 # all-capstone-project-summer-2025-team-6
 
-# Pipeline diagram
+## Pipeline diagram
 
 ![img.png](images/img.png)
 ## How to run:
@@ -16,7 +16,7 @@ python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coor
 
 **You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
 I did not commit it because it's 100MB big.**
-# Data Cleaning and Merging Pipeline
+## Data Cleaning and Merging Pipeline
 
 
 
