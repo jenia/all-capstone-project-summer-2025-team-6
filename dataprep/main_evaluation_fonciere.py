@@ -1,12 +1,13 @@
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
-
+import os
 # --- Load datasets ---
-eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
-addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
-inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
-OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"
+cleaned_folder=os.path.join('.','datasets','cleaned')
+eval_df = pd.read_csv(os.path.join(cleaned_folder,'eval_cleaned.csv'), dtype=str)
+addr_df = pd.read_csv(os.path.join(cleaned_folder,"adresses.csv"), dtype=str)
+inc_df = pd.read_csv(os.path.join(cleaned_folder,"interventions_cleaned_with_has_fire.csv"))
+OUTPUT_FILE = os.path.join(cleaned_folder,"evaluation_with_fire_and_coordinates.csv")
 
 # 🔥 Filter only incidents involving fire
 inc_df = inc_df[
