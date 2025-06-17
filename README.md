@@ -6,9 +6,9 @@
 You need to run these 3 files:
 
 ```commandline
-python ./dataprep/evaluation_fonciere.py
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-python ./dataprep/main_evaluation_fonciere.py
+python ./dataprep/evaluation_fonciere.py   ===> eval_cleaned.csv
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py===> interventions_cleaned_with_has_fire.csv
+python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coordinates_and_date.csv
 ```
 
 **You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
