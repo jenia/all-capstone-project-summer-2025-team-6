@@ -14,17 +14,18 @@ from shapely.geometry import Point
 
 # --- Load datasets ---
 eval_df = pd.read_csv("./feat_eng/datasets_feat_eng/cleaned_feat_eng/eval_cleaned_feat_eng_1.csv", dtype=str)
+
 addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
 inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
+
 OUTPUT_FILE = "./feat_eng/datasets_feat_eng/cleaned_feat_eng/evaluation_fire_coordinates_date_feat_eng_1.csv"
-
-
 
 
 #eval_df = pd.read_csv("eval_cleaned_feat_eng_1.csv", dtype=str)
 #addr_df = pd.read_csv("adresses.csv", dtype=str)
 #inc_df = pd.read_csv("interventions_cleaned_with_has_fire.csv")
 #OUTPUT_FILE = "evaluation_fire_coordinates_date_feat_eng_1.csv"
+
 
 
 # In[3]:
@@ -126,11 +127,48 @@ joined["fire"] = True
 
 
 # --- Extract relevant fire info ---
-fire_records = joined[["ID_UEV", "fire_date"]].copy()
+#fire_records = joined[["ID_UEV", "fire_date"]].copy()
+#fire_records["fire"] = True
+
+
+# In[15]:
+
+
+print(joined.columns.tolist())
+
+
+# In[16]:
+
+
+# --- Extract relevant fire information for merging ---
+fire_records = joined[[
+    "ID_UEV",
+    "fire_date",
+    #"DESCRIPTION_GROUPE",
+    #"INCIDENT_TYPE_DESC",
+    "NOMBRE_UNITES",
+    "CASERNE",
+    #"NOM_ARROND",
+    #"DIVISION"
+]].copy()
+
 fire_records["fire"] = True
 
 
-# In[14]:
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
+
+
+# In[17]:
 
 
 # --- Merge fire flags and fire dates into full dataset ---
@@ -139,7 +177,7 @@ final_df["fire"] = final_df["fire"].fillna(False)
 final_df["fire_date"] = pd.to_datetime(final_df["fire_date"])
 
 
-# In[15]:
+# In[18]:
 
 
 # --- Add coordinates back (if available) ---
@@ -152,7 +190,7 @@ final_df = pd.merge(final_df,
 )
 
 
-# In[16]:
+# In[19]:
 
 
 # --- Save full dataset ---
@@ -160,7 +198,7 @@ final_df = pd.merge(final_df,
 #final_df.to_csv("evaluation_fire_coordinates_date_feat_eng.csv", index=False)
 
 
-# In[17]:
+# In[20]:
 
 
 # --- Summary ---
@@ -169,13 +207,13 @@ print("Houses without incident:", (~final_df["fire"]).sum())
 print("Houses total:", len(final_df))
 
 
-# In[18]:
+# In[21]:
 
 
 final_df.head()
 
 
-# In[19]:
+# In[22]:
 
 
 final_df.info()
@@ -189,7 +227,7 @@ final_df.info()
 
 
 
-# In[20]:
+# In[23]:
 
 
 # 🔁 Ensure NO_ARROND_ILE_CUM is the same type in both DataFrames
@@ -222,13 +260,13 @@ final_df["FIRE_RATE_ZONE"] = (
 ).fillna(0)
 
 
-# In[21]:
+# In[24]:
 
 
 final_df.head()
 
 
-# In[22]:
+# In[25]:
 
 
 from sklearn.preprocessing import MinMaxScaler
@@ -239,7 +277,7 @@ final_df[["FIRE_COUNT_LAST_YEAR_ZONE_NORM", "FIRE_RATE_ZONE_NORM"]] = scaler.fit
 )
 
 
-# In[ ]:
+# In[26]:
 
 
 import pandas as pd
@@ -253,16 +291,16 @@ print("✅ File saved as eval_fire_coordinates_date_feat_eng_1.csv")
 
 
 
-# In[ ]:
+# In[27]:
 
 
+final_df.head()
 
 
-
-# In[ ]:
-
+# In[29]:
 
 
+final_df.info()
 
 
 # In[ ]:
@@ -285,7 +323,7 @@ print("✅ File saved as eval_fire_coordinates_date_feat_eng_1.csv")
 
 #  Categorize FIRE_RATE_ZONE into risk levels
 
-# In[23]:
+# In[30]:
 
 
 def assign_risk_level(rate):
@@ -299,7 +337,7 @@ def assign_risk_level(rate):
 final_df["FIRE_RISK_LEVEL_ZONE"] = final_df["FIRE_RATE_ZONE"].apply(assign_risk_level)
 
 
-# In[24]:
+# In[31]:
 
 
 import matplotlib.pyplot as plt
@@ -312,7 +350,7 @@ plt.tight_layout()
 plt.show()
 
 
-# In[29]:
+# In[32]:
 
 
 import pandas as pd
@@ -351,7 +389,7 @@ zone_month_stats["FIRE_RATE_ZONE_MONTH"] = zone_month_stats["FIRE_COUNT_ZONE_MON
 zone_month_stats.sort_values(by=["NO_ARROND_ILE_CUM", "year_month"]).head()
 
 
-# In[30]:
+# In[33]:
 
 
 import pandas as pd
@@ -381,6 +419,18 @@ plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:
