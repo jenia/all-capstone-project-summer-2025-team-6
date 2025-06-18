@@ -6,6 +6,7 @@
 
 import pandas as pd
 import geopandas as gpd
+import os
 
 
 # In[ ]:
@@ -17,10 +18,10 @@ import geopandas as gpd
 # In[37]:
 
 
-DIRECTORY = r'G:\.shortcut-targets-by-id\1uExmPmKnHKKlOfMdT70cXpwXvdf9aVEC\Capstone Project summer 2025- Team6\datasets'
-ORIGINAL_FILE_NAME_EVAL_CLEANED = 'eval_cleaned.csv'
-ORIGINAL_FILE_NAME_ADRESSES = 'adresses.csv'
-DESTINATION_FILE_NAME = "merged_evaluationfonciere_adresses.csv"
+DIRECTORY = os.path.join('.','datasets')
+ORIGINAL_FILE_NAME_EVAL_CLEANED = os.path.join(DIRECTORY,'cleaned','eval_cleaned.csv')
+ORIGINAL_FILE_NAME_ADRESSES = os.path.join(DIRECTORY,'cleaned','adresses.csv')
+DESTINATION_FILE_NAME = os.path.join(DIRECTORY,'cleaned',"merged_evaluationfonciere_adresses.csv")
 
 
 # In[38]:
