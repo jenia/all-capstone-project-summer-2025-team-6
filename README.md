@@ -2,70 +2,23 @@
 
 # all-capstone-project-summer-2025-team-6
 
+## [Pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
+
+![img.png](images/img.png)
 ## How to run:
-You need to run these 4 files:
+You need to run these 3 files:
 
 ```commandline
-python ./dataprep/evaluation_fonciere.py
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-// TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
-python ./dataprep/main_evaluation_fonciere.py===>I did this look at added code merged_interventions_evaluationfonciere_adresses.py
+python ./dataprep/evaluation_fonciere.py   ===> eval_cleaned.csv
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py===> interventions_cleaned_with_has_fire.csv
+python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coordinates_and_date.csv
 ```
 
-- evaluation_fonciere.py
-```commandline
-python ./dataprep/evaluation_fonciere.py
-```
+**You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
+I did not commit it because it's 100MB big.**
+## Data Cleaning and Merging Pipeline
 
-This will clean up the evaluation fonciere data, located in these folders:
-
-```python
-ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
-DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
-```
-- interventions_HAS_FIRE_binary_analysis.py
-```commandline
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-```
-
-This will clean up the interventions data, located in these folders
-
-
-
-- interventions_HAS_FIRE_binary_analysis.py
-
-```commandline
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-```
-
-and  will mark the interventions with fire, located in these folders
-
-```python
-ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
-ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
-DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.csv'
-```
-
-- main_evaluation_fonciere.py
-
-```commandline
-python ./dataprep/main_evaluation_fonciere.py
-
-```
-
-This will mark the evaluations fonciere with fire or not
-
-```commandline
-eval_df = pd.read_csv("./datasets/cleaned/eval_cleaned.csv", dtype=str)
-addr_df = pd.read_csv("./datasets/cleaned/adresses.csv", dtype=str)
-inc_df = pd.read_csv("./datasets/cleaned/interventions_cleaned_with_has_fire.csv")
-// TODO: Eugene, I think I should use the new DESCRIPTION_GROUPE column from interventions_cleaned_with_has_fire.csv
-OUTPUT_FILE = "./datasets/cleaned/evaluation_with_fire_and_coordinates.csv"=====> I did this look at datasets/merged/merged_interventions_evaluationfonciere_adresses_binary_analysis_1.csv=====> please try to review the work in general if possible we all can do mistakes...
-
-```
-# Data Cleaning and Merging Pipeline
-
-
+*datamodel has a python code for time modelling that is only a test since it is not precise we should add feature engineering for it to work better. I included only as exemple of reasoning*
 
 
 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
