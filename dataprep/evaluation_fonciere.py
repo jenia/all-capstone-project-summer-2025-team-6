@@ -38,7 +38,7 @@ df_eval["ANNEE_CONSTRUCTION"].describe()
 
 
 # Replace missing ANNEE_CONSTRUCTION with the label "unknown" temporarily for categorical handling
-df_eval["ANNEE_CONSTRUCTION"] = df_eval["ANNEE_CONSTRUCTION"].fillna("unknown")
+df_eval["ANNEE_CONSTRUCTION"] = df_eval["ANNEE_CONSTRUCTION"].fillna(0)
 
 # Confirm replacement
 df_eval["ANNEE_CONSTRUCTION"].value_counts(dropna=False).head()
