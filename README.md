@@ -15,7 +15,7 @@ python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coor
 I did not commit it because it's 100MB big.**
 # Data Cleaning and Merging Pipeline
 
-
+*datamodel has a python code for time modelling that is only a test since it is not precise we should add feature engineering for it to work better. I included only as exemple of reasoning*
 
 
 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
