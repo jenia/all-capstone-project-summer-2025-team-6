@@ -18,9 +18,16 @@ python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coor
 I did not commit it because it's 100MB big.**
 
 
-**datamodel has a python code for time modelling that is only a test since it is not precise we should add feature engineering for it to work better. I included only as exemple of reasoning*
-It has a test for monthly fire risk prediction: Monthly_fire_Risk_prediction-test.py
-to run in python use the command : python ./datamodel/Monthly_fire_risk_prediction-test.py  look at the results the metrics.
+**`datamodel/` contains a Python script for testing temporal fire risk modeling.  
+Please note that this is an early test — the results are not yet precise.  
+To improve the model, additional feature engineering is required.**
+
+**The script `Monthly_fire_Risk_prediction-test.py` runs a monthly fire risk prediction test.  
+You can execute it from the project root with:**
+
+```bash
+python ./datamodel/Monthly_fire_risk_prediction-test.py
+
 
 
 
