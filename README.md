@@ -20,6 +20,10 @@ I did not commit it because it's 100MB big.**
 
 *datamodel has a python code for time modelling that is only a test since it is not precise we should add feature engineering for it to work better. I included only as exemple of reasoning*
 
+It has a test for monthly fire risk prediction: Monthly_fire_Risk_prediction-test.py
+
+to run in python use the command : python ./datamodel/Monthly_fire_risk_prediction-test.py
+
 
 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
