@@ -28,7 +28,7 @@ The script `Monthly_fire_Risk_prediction-test.py` runs a monthly fire risk predi
 You can execute it from the project root with:
 ### Data Cleaning and Merging Pipeline
 
-TODO: A diagram would be useful here
+TODO: A diagram would be useful here and discussion of results.
 ```bash
 python ./datamodel/Monthly_fire_risk_prediction-test.py
 
