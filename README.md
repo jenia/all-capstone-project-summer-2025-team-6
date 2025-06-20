@@ -13,29 +13,20 @@ python ./dataprep/evaluation_fonciere.py   ===> eval_cleaned.csv
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py===> interventions_cleaned_with_has_fire.csv
 python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coordinates_and_date.csv
 ```
+You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
+I did not commit it because it's 100MB big.
 
-**You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
-I did not commit it because it's 100MB big.**
-
-
-**`datamodel/` contains a Python script for testing temporal fire risk modeling.  
+## Testing temporal fire risk modeling
+`datamodel/` contains a Python script for testing temporal fire risk modeling.  
 Please note that this is an early test — the results are not yet precise.  
-To improve the model, additional feature engineering is required.**
+To improve the model, additional feature engineering is required.
 
-**The script `Monthly_fire_Risk_prediction-test.py` runs a monthly fire risk prediction test.  
-You can execute it from the project root with:**
+The script `Monthly_fire_Risk_prediction-test.py` runs a monthly fire risk prediction test.  
+You can execute it from the project root with:
+### Data Cleaning and Merging Pipeline
 
 ```bash
 python ./datamodel/Monthly_fire_risk_prediction-test.py
-
-
-
-
-
-## Data Cleaning and Merging Pipeline
-
-
-
 
 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
