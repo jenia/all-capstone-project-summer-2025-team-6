@@ -7,7 +7,7 @@
 - [How to Run the Data Pipeline](#how-to-run-the-data-pipeline)
 - [Models](#models)
   - [Testing Temporal Fire Risk Modeling](#testing-temporal-fire-risk-modeling)
-- [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
+    - [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
 
 ## [Data pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
 
