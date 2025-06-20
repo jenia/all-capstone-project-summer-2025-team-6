@@ -2,10 +2,11 @@
 
 # all-capstone-project-summer-2025-team-6
 
-## [Pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
+## [Data pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
 
 ![img.png](images/img.png)
-## How to run:
+### How to run the data pipeline:
+
 You need to run these 3 files:
 
 ```commandline
