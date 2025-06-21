@@ -1,5 +1,14 @@
 # Report
 
+## Table of Contents
+
+1. [Purpose](#purpose)
+2. [Models Tried](#models-tried)
+ - [RandomForestClassifier](#randomforestclassifier)
+ - [LGBMClassifier](#lgbmclassifier)
+
+
+
 ## Purpose
 
 Project A – Predicting High Fire Risk Areas in Montreal
