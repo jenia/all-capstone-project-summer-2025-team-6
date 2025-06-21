@@ -34,11 +34,15 @@ Read raw data from CSV. Clean key columns: ANNEE_CONSTRUCTION, NOMBRE_LOGEMENT, 
 🏗️ **Feature Engineering Summary**
  Feature Name Description 
  
- AGE_BATIMENT Building age = 2025 - construction
- year RATIO_SURFACE SUPERFICIE_BATIMENT / SUPERFICIE_TERRAIN 
- DENSITE_LOGEMENT NOMBRE_LOGEMENT / SUPERFICIE_BATIMENT
- HAS_MULTIPLE_LOGEMENTS Binary flag: 1 if more than one housing unit, 0 otherwise
- FIRE_FREQUENCY_ZONE Proxy for fire risk: number of buildings in the same NO_ARROND_ILE_CUM 
+
+| Feature Name             | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| `AGE_BATIMENT`           | Building age = 2025 - construction year                                      |
+| `RATIO_SURFACE`          | `SUPERFICIE_BATIMENT` / `SUPERFICIE_TERRAIN`                                 |
+| `DENSITE_LOGEMENT`       | `NOMBRE_LOGEMENT` / `SUPERFICIE_BATIMENT`                                    |
+| `HAS_MULTIPLE_LOGEMENTS` | Binary flag: 1 if more than one housing unit, 0 otherwise                    |
+| `FIRE_FREQUENCY_ZONE`    | Proxy for fire risk: number of buildings in the same `NO_ARROND_ILE_CUM`     |
+
  
  All continuous features were normalized using MinMaxScaler.
 
