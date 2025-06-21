@@ -20,15 +20,15 @@ Read raw data from CSV. Clean key columns: ANNEE_CONSTRUCTION, NOMBRE_LOGEMENT, 
 
 | Column                | Cleaning Strategy                                                                 |
 |-----------------------|------------------------------------------------------------------------------------|
-| `ANNEE_CONSTRUCTION`  | - Removed unrealistic values (<1800 or >2025)  
-                           - Imputed by borough median for "Logement/Immeuble"  
-                           - Fallback: `"unknown"` |
-| `NOMBRE_LOGEMENT`     | - Imputed using median by `(borough, building type)`  
-                           - Fallback: borough-level median |
-| `ETAGE_HORS_SOL`      | - Imputed using median by `(borough, building type)`  
-                           - Fallback: borough-level median |
-| `SUPERFICIE_BATIMENT` | - Imputed using median by `(borough, building type)`  
-                           - Fallback: borough-level median |
+| `ANNEE_CONSTRUCTION`  | - Removed unrealistic values (<1800 or >2025)  |
+|                       |  - Imputed by borough median for "Logement/Immeuble"  |
+|                       |    - Fallback: `"unknown"`                            |
+| `NOMBRE_LOGEMENT`     | - Imputed using median by `(borough, building type)`  |
+|                        |   - Fallback: borough-level median |
+| `ETAGE_HORS_SOL`      | - Imputed using median by `(borough, building type)`  |
+|                       |    - Fallback: borough-level median |
+| `SUPERFICIE_BATIMENT` | - Imputed using median by `(borough, building type)`  |
+|                       |    - Fallback: borough-level median |
 
 
 🏗️ **Feature Engineering Summary**
