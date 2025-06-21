@@ -118,15 +118,15 @@ This script performs:
 ```
 
 
-##Description: main_evaluation_feat_eng.py
+## Description: main_evaluation_feat_eng.py
 
-# 🔥 Detailed Summary of `main_evaluation_feat_eng.py`
+### 🔥 Detailed Summary of `main_evaluation_feat_eng.py`
 
 This script processes building and fire incident data to produce a geospatially enriched dataset for **fire risk modeling**. It includes spatial joins, temporal feature extraction, and fire frequency calculations at the zone level.
 
 ---
 
-## 🧠 Goal of the Script
+#### 🧠 Goal of the Script
 
 Produce a feature-rich dataset at the building level that combines:
 
@@ -139,7 +139,7 @@ Produce a feature-rich dataset at the building level that combines:
 
 ---
 
-## 🗂️ 1. Load Datasets
+##### 🗂️ 1. Load Datasets
 
 - `eval_cleaned_feat_eng.csv` — Pre-cleaned building/property data
 - `adresses.csv` — Street-level address coordinates
@@ -149,28 +149,28 @@ All file paths are dynamically resolved.
 
 ---
 
-## 🧹 2. Preprocessing
+### 🧹 2. Preprocessing
 
-### 🔸 Evaluation Data
+#### 🔸 Evaluation Data
 - Cleans `CIVIQUE_DEBUT` (street number) and standardizes street names
 - Copies original version for later merging
 
-### 🔸 Address Data
+#### 🔸 Address Data
 - Combines `GENERIQUE` + `SPECIFIQUE` into `NOM_RUE_CLEAN`
 - Converts address numbers for matching
 
-### 🔸 Coordinate Assignment
+#### 🔸 Coordinate Assignment
 - Merges buildings and addresses to assign `LATITUDE` and `LONGITUDE`
 - Filters out rows without coordinates
 
-### 🔸 Incident Data
+#### 🔸 Incident Data
 - Filters rows where `DESCRIPTION_GROUPE` contains "INCENDIE"
 - Converts date/time and builds GeoDataFrame
 - Buffers incidents with a 100m radius to capture nearby buildings
 
 ---
 
-## 🗺️ 3. Spatial Join
+### 🗺️ 3. Spatial Join
 
 - Matches each building to nearby fire incidents using `gpd.sjoin()`
 - Assigns:
@@ -181,7 +181,7 @@ All file paths are dynamically resolved.
 
 ---
 
-## 🔁 4. Merge Fire Info Back
+### 🔁 4. Merge Fire Info Back
 
 - Merges fire records with **all buildings** using `ID_UEV`
 - Fills nulls for non-fire rows
@@ -189,7 +189,7 @@ All file paths are dynamically resolved.
 
 ---
 
-## 🕒 5. Time Features
+### 🕒 5. Time Features
 
 - Extracts:
   - `fire_month`, `fire_year`, `year_month`
@@ -197,7 +197,7 @@ All file paths are dynamically resolved.
 
 ---
 
-## 🌍 6. Fire Zone Aggregates
+### 🌍 6. Fire Zone Aggregates
 
 - Computes per-zone fire counts for year 2024
 - Computes:
@@ -207,30 +207,30 @@ All file paths are dynamically resolved.
 
 ---
 
-## 🔎 7. Missing Coordinates
+### 🔎 7. Missing Coordinates
 
 - Flags rows missing latitude/longitude: `missing_coords`
 - Compares fire rates between missing vs present coordinates
 
 ---
 
-## 🎯 8. Feature Selection
+### 🎯 8. Feature Selection
 
-### ✅ Kept Features
+#### ✅ Kept Features
 - Structural: `AGE_BATIMENT`, `DENSITE_LOGEMENT`, `RATIO_SURFACE`
 - Target: `fire`, `had_fire`, `fire_date`
 - Time: `fire_month`, `fire_year`, `fire_season`, `year_month`
 - Spatial: `NO_ARROND_ILE_CUM`, `LATITUDE`, `LONGITUDE`
 - Fire Stats: `FIRE_COUNT_LAST_YEAR_ZONE`, `FIRE_RATE_ZONE`, and normalized versions
 
-### ❌ Dropped Features
+#### ❌ Dropped Features
 - Redundant address fields: `CIVIQUE_DEBUT`, `ADDR_DE`, etc.
 - Internal metadata: `MATRICULE83`, `CASERNE`, etc.
 - Raw year field: `ANNEE_CONSTRUCTION` (keep `AGE_BATIMENT` instead)
 
 ---
 
-## 💾 9. Save Output
+### 💾 9. Save Output
 
 - Final cleaned file is saved to:
   ```
@@ -239,7 +239,7 @@ All file paths are dynamically resolved.
 
 ---
 
-## ✅ Summary Stats
+### ✅ Summary Stats
 
 - ~664K total buildings
 - ~295K matched to fire incidents
