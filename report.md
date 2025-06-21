@@ -1,3 +1,85 @@
+# Report
+
+## Purpose
+
+Project A – Predicting High Fire Risk Areas in Montreal
+
+Objective: The objective of this project is to predict high fire risk areas by month in the city of Montreal, based on historical firefighter intervention data and additional open datasets.
+
+## Models tried
+
+### RandomForestClassifier
+
+**Input data used: `evaluation_with_fire_and_coordinates_and_date.csv`**
+
+**Target Variable**
+
+Y = P(Fire | X)
+
+Where X includes:
+
+- `log_terrain`
+- `log_batiment`
+- `log_etage_hors_sol`
+- `log_numbre_de_logement`
+- `ANNEE_CONSTRUCTION`
+- `density`
+
+
+Confusion Matrix:
+
+    [[64073  9540]
+     [ 8273 50871]]
+
+
+
+Classification Report:
+
+              precision    recall  f1-score   support
+
+       False       0.89      0.87      0.88     73613
+        True       0.84      0.86      0.85     59144
+
+    accuracy                           0.87    132757
+    macro avg       0.86      0.87      0.86    132757
+    weighted avg    0.87      0.87      0.87    132757
+
+    ROC AUC: 0.936
+
+### LGBMClassifier
+
+**Input data used: `evaluation_with_fire_and_coordinates_and_date.csv`**
+
+**Target Variable**
+
+Y = P(Month of Fire | X)
+
+Where X includes:
+
+- `ETAGE_HORS_SOL`
+- `NOMBRE_LOGEMENT`
+- `ANNEE_CONSTRUCTION`
+- `SUPERFICIE_TERRAIN`
+- `SUPERFICIE_BATIMENT`
+- `LONGITUDE`
+- `LATITUDE`
+
+**Note**: Properties with no recorded fire were assigned to month 13 to indicate the absence of fire incidents
+
+    accuracy                           0.676    132757
+    macro avg      0.457     0.348     0.388    132757
+    weighted avg   0.629     0.676     0.640    132757
+
+I then tried to train only on months 1-12:
+
+    accuracy                           0.434     58954
+    macro avg      0.439     0.433     0.434     58954
+    weighted avg   0.437     0.434     0.433     58954
+
+
+## 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
+
+1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
 We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in datasets/cleaned we add additional feature enginnering for evaluation fonciere like Age batiment, ratio surface, densite logement, fire frequency zone we get **eval_cleaned_feat_eng.csv**
