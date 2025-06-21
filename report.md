@@ -16,7 +16,7 @@ Read raw data from CSV. Clean key columns: ANNEE_CONSTRUCTION, NOMBRE_LOGEMENT, 
 
 🧹** Data Cleaning & Feature Engineering Summary **
 
-📌 **Data Cleaning Summary Column**
+📌 **Data Cleaning Summary **
 
 | Column                | Cleaning Strategy                                                                 |
 |-----------------------|------------------------------------------------------------------------------------|
@@ -32,7 +32,6 @@ Read raw data from CSV. Clean key columns: ANNEE_CONSTRUCTION, NOMBRE_LOGEMENT, 
 
 
 🏗️ **Feature Engineering Summary**
- Feature Name Description 
  
 
 | Feature Name             | Description                                                                 |
@@ -48,9 +47,14 @@ Read raw data from CSV. Clean key columns: ANNEE_CONSTRUCTION, NOMBRE_LOGEMENT, 
 
 
 🗃️ **Dropped or Excluded Columns**
+
  Temporary or unused columns were dropped before final export:
 
-_ANNEE_CONSTRUCTION_NUM (intermediate) Future features like IS_UNKNOWN_YEAR, IS_MIXED_USE, etc. Any columns used only during cleaning/imputation logic
+_ANNEE_CONSTRUCTION_NUM (intermediate)
+
+Future features like IS_UNKNOWN_YEAR, IS_MIXED_USE, etc.
+
+Any columns used only during cleaning/imputation logic
 
 
  📦 **Final Output Columns**
