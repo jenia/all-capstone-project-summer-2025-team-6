@@ -20,7 +20,7 @@ python ./dataprep/evaluation_fonciere.py
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
 python ./dataprep/main_evaluation_fonciere.py
 ```
-You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
+You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file *evaluation_with_fire_and_coordinates_and_date.csv*
 I did not commit it because it's 100MB big.
 
 ## Testing temporal fire risk modeling
