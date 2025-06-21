@@ -18,13 +18,21 @@ Read raw data from CSV. Clean key columns: ANNEE_CONSTRUCTION, NOMBRE_LOGEMENT, 
 Fallback: borough-level median | | ETAGE_HORS_SOL | - Imputed using median by (borough, building type)
 Fallback: borough-level median | | SUPERFICIE_BATIMENT | - Imputed using median by (borough, building type)
 Fallback: borough-level median |
+
+
 🏗️ **Feature Engineering Summary**
  Feature Name Description AGE_BATIMENT Building age = 2025 - construction year RATIO_SURFACE SUPERFICIE_BATIMENT / SUPERFICIE_TERRAIN DENSITE_LOGEMENT NOMBRE_LOGEMENT / SUPERFICIE_BATIMENT HAS_MULTIPLE_LOGEMENTS Binary flag: 1 if more than one housing unit, 0 otherwise FIRE_FREQUENCY_ZONE Proxy for fire risk: number of buildings in the same NO_ARROND_ILE_CUM All continuous features were normalized using MinMaxScaler.
+
 
 🗃️ **Dropped or Excluded Columns**
  Temporary or unused columns were dropped before final export:
 
-_ANNEE_CONSTRUCTION_NUM (intermediate) Future features like IS_UNKNOWN_YEAR, IS_MIXED_USE, etc. Any columns used only during cleaning/imputation logic 📦 Final Output Columns The following columns are present in the output file eval_cleaned_feat_eng.csv:
+_ANNEE_CONSTRUCTION_NUM (intermediate) Future features like IS_UNKNOWN_YEAR, IS_MIXED_USE, etc. Any columns used only during cleaning/imputation logic
+
+
+ 📦 **Final Output Columns**
+ 
+  The following columns are present in the output file eval_cleaned_feat_eng.csv:
 
 
  [ 'ID_UEV', 'CIVIQUE_DEBUT', 'CIVIQUE_FIN', 'NOM_RUE', 'SUITE_DEBUT', 'MUNICIPALITE', 'ETAGE_HORS_SOL', 'NOMBRE_LOGEMENT', 'ANNEE_CONSTRUCTION', 'CODE_UTILISATION', 'LETTRE_DEBUT', 'LETTRE_FIN', 'LIBELLE_UTILISATION', 'CATEGORIE_UEF', 'MATRICULE83', 'SUPERFICIE_TERRAIN', 'SUPERFICIE_BATIMENT', 'NO_ARROND_ILE_CUM', 'AGE_BATIMENT', 'RATIO_SURFACE', 'DENSITE_LOGEMENT', 'HAS_MULTIPLE_LOGEMENTS', 'FIRE_FREQUENCY_ZONE' ]
