@@ -30,10 +30,10 @@ To improve the model, additional feature engineering is required.
 
 The script `Monthly_fire_Risk_prediction-test.py` runs a monthly fire risk prediction test.  
 You can execute it from the project root with:
-### Data Cleaning and Merging Pipeline
+# Data Cleaning and Merging Pipeline
 
 
-# Description: evaluation_fonciere.py
+1. Description: evaluation_fonciere.py
 
 ## 🏗️ evaluation_fonciere.py: Clean and Feature Engineer Property Evaluation Data
 
@@ -60,7 +60,7 @@ python ./dataprep/evaluation_fonciere.py
 
 This script performs:
 - Cleaning of raw columns
-- Borough-based imputation of missing values
+- Imputation of missing values
 - Creation of new features
 - Normalization of numeric variables
 
