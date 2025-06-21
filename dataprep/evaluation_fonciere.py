@@ -4,6 +4,8 @@ import numpy as np
 
 ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
 DESTINATION_FILE_NAME = './datasets/cleaned/eval_cleaned.csv'
+DESTINATION_FILE_NAME_FEAT_ENG = './datasets/cleaned/eval_cleaned_feat_eng.csv'
+
 
 df_eval = pd.read_csv(ORIGINAL_FILE_NAME_EVAL )
 
@@ -13,6 +15,7 @@ df_eval.info()
 
 # Check distribution of ANNEE_CONSTRUCTION
 year_series = df_eval["ANNEE_CONSTRUCTION"]
+
 
 # Plot histogram to identify outliers visually
 plt.figure(figsize=(10, 4))
@@ -30,6 +33,8 @@ year_series.describe()
 # Mark unrealistic years as missing
 mask = (df_eval["ANNEE_CONSTRUCTION"] < 1800) | (df_eval["ANNEE_CONSTRUCTION"] > 2025)
 df_eval.loc[mask, "ANNEE_CONSTRUCTION"] = np.nan
+
+
 
 # Summary
 total_invalid = mask.sum()
@@ -268,3 +273,250 @@ df_eval_cleaned.to_csv(DESTINATION_FILE_NAME, index=False)
 df_eval_cleaned=pd.read_csv(DESTINATION_FILE_NAME)
 df_eval_cleaned.head()
 df_eval_cleaned.info()
+
+
+
+
+
+
+
+df_eval_cleaned=pd.read_csv(DESTINATION_FILE_NAME)
+
+df_eval_cleaned.head()
+
+
+df_eval_cleaned.info()
+
+
+
+
+
+# | Feature               | Cleaned | Method                              |
+
+# | --------------------- | ------- | ----------------------------------- |
+
+# | `ANNEE_CONSTRUCTION`  | ✅       | Median + `"unknown"` fallback       |
+
+# | `NOMBRE_LOGEMENT`     | ✅       | Median by borough & type + fallback |
+
+# | `ETAGE_HORS_SOL`      | ✅       | Median by borough & type + fallback |
+
+# | `SUPERFICIE_BATIMENT` | ✅       | Median by borough & type + fallback |
+
+# 
+
+
+print(df_eval.columns.tolist())
+
+
+
+
+
+# # Feature Engineering 
+
+
+
+# # ✅ Feature Engineering Summary
+
+# 🔹 Structural Features
+
+# AGE_BATIMENT: Age of the building (2025 - construction year)
+
+# 
+
+# RATIO_SURFACE: Building area divided by land area (density of construction)
+
+# 
+
+# HAS_MULTIPLE_LOGEMENTS: Flag if building has more than one unit
+
+# 
+
+# 🔹 Density & Exposure
+
+# DENSITE_LOGEMENT: Housing unit density (units per m² of building)
+
+# 
+
+# 🔹 Contextual Risk
+
+# FIRE_FREQUENCY_ZONE: Proxy for local fire risk, based on number of buildings in the same zone (NO_ARROND_ILE_CUM)
+
+# 
+
+# 🔹 Categorical Simplification
+
+# TYPE_USAGE_SIMPLIFIED: Simplified usage types — Residential, Commercial, Institutional, Vacant, Other
+
+# 
+
+# DECADE_CONSTRUCTION: Construction period grouped by decade (e.g., "1980s", "2010s")
+
+# 
+
+# 🔹 One-Hot Encoding
+
+# Applied to TYPE_USAGE_SIMPLIFIED and DECADE_CONSTRUCTION, generating model-friendly binary columns
+
+# 
+
+# 🔹 Normalization
+
+# Continuous features (AGE_BATIMENT, RATIO_SURFACE, DENSITE_LOGEMENT, FIRE_FREQUENCY_ZONE) were scaled to [0, 1] for consistency
+
+# 
+
+# 🔹 Feature Reduction
+
+# Rare or non-informative features (e.g., IS_MIXED_USE, IS_UNKNOWN_YEAR, USAGE_Vacant) were removed based on prevalence and signal strength
+
+
+import pandas as pd
+
+import numpy as np
+
+from sklearn.preprocessing import MinMaxScaler
+
+
+
+# Load base dataset
+
+df = pd.read_csv(DESTINATION_FILE_NAME)
+
+current_year = 2025
+
+
+
+# ---------------------------------------
+
+# 🔧 Step 1: Feature Engineering
+
+# ---------------------------------------
+
+
+
+# AGE_BATIMENT
+
+df["AGE_BATIMENT"] = df["ANNEE_CONSTRUCTION"].apply(
+
+    lambda x: current_year - int(float(x)) if x != "unknown" else np.nan
+
+)
+
+
+
+# RATIO_SURFACE
+
+df["RATIO_SURFACE"] = df["SUPERFICIE_BATIMENT"] / df["SUPERFICIE_TERRAIN"]
+
+df["RATIO_SURFACE"].replace([np.inf, -np.inf], np.nan, inplace=True)
+
+
+
+# DENSITE_LOGEMENT
+
+df["DENSITE_LOGEMENT"] = df["NOMBRE_LOGEMENT"] / df["SUPERFICIE_BATIMENT"]
+
+df["DENSITE_LOGEMENT"].replace([np.inf, -np.inf], np.nan, inplace=True)
+
+
+
+# HAS_MULTIPLE_LOGEMENTS
+
+df["HAS_MULTIPLE_LOGEMENTS"] = (df["NOMBRE_LOGEMENT"] > 1).astype(int)
+
+
+
+# FIRE_FREQUENCY_ZONE (proxy: number of buildings in each borough)
+
+df["FIRE_FREQUENCY_ZONE"] = df["NO_ARROND_ILE_CUM"].map(df["NO_ARROND_ILE_CUM"].value_counts())
+
+
+
+# ---------------------------------------
+
+# 🔄 Step 2: Normalize Numeric Features
+
+# ---------------------------------------
+
+scaler = MinMaxScaler()
+
+to_normalize = ["AGE_BATIMENT", "RATIO_SURFACE", "DENSITE_LOGEMENT", "FIRE_FREQUENCY_ZONE"]
+
+df[to_normalize] = scaler.fit_transform(df[to_normalize])
+
+
+
+# ---------------------------------------
+
+# ✅ Step 3: Select Final Columns
+
+# ---------------------------------------
+
+
+
+# Original columns I want to keep
+
+original_cols = [
+
+    'ID_UEV', 'CIVIQUE_DEBUT', 'CIVIQUE_FIN', 'NOM_RUE', 'SUITE_DEBUT', 'MUNICIPALITE',
+
+    'ETAGE_HORS_SOL', 'NOMBRE_LOGEMENT', 'ANNEE_CONSTRUCTION', 'CODE_UTILISATION',
+
+    'LETTRE_DEBUT', 'LETTRE_FIN', 'LIBELLE_UTILISATION', 'CATEGORIE_UEF', 'MATRICULE83',
+
+    'SUPERFICIE_TERRAIN', 'SUPERFICIE_BATIMENT', 'NO_ARROND_ILE_CUM'
+
+]
+
+
+
+# Engineered columns
+
+engineered_cols = [
+
+    "AGE_BATIMENT",
+
+    "RATIO_SURFACE",
+
+    "DENSITE_LOGEMENT",
+
+    "HAS_MULTIPLE_LOGEMENTS",
+
+    "FIRE_FREQUENCY_ZONE"
+
+]
+
+
+
+# Combine and drop duplicates (in case of overlap)
+
+final_cols = list(dict.fromkeys(original_cols + engineered_cols))
+
+
+
+df_final = df[final_cols]
+
+
+
+# Save to file
+
+
+df_final.to_csv(DESTINATION_FILE_NAME_FEAT_ENG, index=False)
+
+print("✅ Feature engineering complete. Saved to 'DESTINATION_FILE_NAME_FEAT_ENG' ")
+
+
+df_final.head(20)
+
+
+
+
+
+
+
+
+
+
+
+
