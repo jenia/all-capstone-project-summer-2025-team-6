@@ -5,10 +5,9 @@
 
 - [Data Pipeline Diagram](#data-pipeline-diagram)
 - [How to Run the Data Pipeline](#how-to-run-the-data-pipeline)
-- [Models](#models)
-  - [Testing Temporal Fire Risk Modeling](#testing-temporal-fire-risk-modeling)
-    - [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
-
+- [Testing Temporal Fire Risk Modeling](#testing-temporal-fire-risk-modeling)
+  - [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
+    - [Description: evaluation_fonciere.py](#description-evaluation_foncierepy)
 ## [Data pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
 
 ![img.png](images/img.png)
@@ -24,8 +23,6 @@ python ./dataprep/main_evaluation_fonciere.py
 You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
 I did not commit it because it's 100MB big.
 
-# Models
-We evaluated multiple models. This subsection describes how to run them and summarizes their performance
 ## Testing temporal fire risk modeling
 `datamodel/` contains a Python script for testing temporal fire risk modeling.  
 Please note that this is an early test — the results are not yet precise.  
@@ -36,7 +33,7 @@ You can execute it from the project root with:
 ### Data Cleaning and Merging Pipeline
 
 
-#### Description  : evaluation_fonciere.py 
+#### Description: evaluation_fonciere.py
 
 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
