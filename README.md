@@ -1,11 +1,19 @@
 
 
 # all-capstone-project-summer-2025-team-6
+## Table of Contents
 
-## [Pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
+- [Data Pipeline Diagram](#data-pipeline-diagram)
+- [How to Run the Data Pipeline](#how-to-run-the-data-pipeline)
+- [Models](#models)
+  - [Testing Temporal Fire Risk Modeling](#testing-temporal-fire-risk-modeling)
+    - [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
+
+## [Data pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
 
 ![img.png](images/img.png)
-## How to run:
+### How to run the data pipeline:
+
 You need to run these 3 files:
 
 ```commandline
@@ -13,13 +21,23 @@ python ./dataprep/evaluation_fonciere.py   ===> eval_cleaned.csv
 python ./dataprep/interventions_HAS_FIRE_binary_analysis.py===> interventions_cleaned_with_has_fire.csv
 python ./dataprep/main_evaluation_fonciere.py ===> evaluation_with_fire_and_coordinates_and_date.csv
 ```
+You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
+I did not commit it because it's 100MB big.
 
-**You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file `evaluation_with_fire_and_coordinates_and_date.csv`
-I did not commit it because it's 100MB big.**
-## Data Cleaning and Merging Pipeline
+# Models
+We evaluated multiple models. This subsection describes how to run them and summarizes their performance
+## Testing temporal fire risk modeling
+`datamodel/` contains a Python script for testing temporal fire risk modeling.  
+Please note that this is an early test — the results are not yet precise.  
+To improve the model, additional feature engineering is required.
 
-*datamodel has a python code for time modelling that is only a test since it is not precise we should add feature engineering for it to work better. I included only as exemple of reasoning*
+The script `Monthly_fire_Risk_prediction-test.py` runs a monthly fire risk prediction test.  
+You can execute it from the project root with:
+### Data Cleaning and Merging Pipeline
 
+TODO: A diagram would be useful here and discussion of results.
+```bash
+python ./datamodel/Monthly_fire_risk_prediction-test.py
 
 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
