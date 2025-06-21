@@ -1,6 +1,6 @@
-1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
+dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
 
-We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in datasets/cleaned with additional feature enginnering we get **eval_cleaned_feat_eng.csv**
+We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in datasets/cleaned we add additional feature enginnering for evaluation fonciere like Age batiment, ratio surface, densite logement, fire frequency zone we get **eval_cleaned_feat_eng.csv**
 
 
 **To run this code**
