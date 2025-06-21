@@ -1,148 +1,93 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[13]:
+#to run the code in python: python datamodel/Monthly_fire_risk_prediction-test.py
 
-
-#We should add feature engineering and other features like weather, crime, population,...  to get better results
-
-
-# In[ ]:
-
-
+import os
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
-from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 from sklearn.metrics import classification_report
 
+# ✅ Run this from the ROOT of the project
+# Example: C:\Users\mirei\OneDrive\Desktop\all-capstone-project-summer-2025-team-6-main
 
-# In[14]:
+# 🔹 Paths
+INPUT_CSV = os.path.join("datasets", "cleaned", "evaluation_with_fire_and_coordinates_and_date.csv")
+OUTPUT_PANEL = os.path.join("datamodel", "building_month_fire_panel.csv")
 
-
-# Load fire dataset
-df = pd.read_csv("./datasets/cleaned/evaluation_with_fire_and_coordinates_and_date.csv")
+# 🔸 Load and clean fire dataset
+df = pd.read_csv(INPUT_CSV)
 df["fire_date"] = pd.to_datetime(df["fire_date"], errors="coerce")
-df_fire = df[df["fire"] == True].copy()
+df["month"] = df["fire_date"].dt.to_period("M")
+df = df.dropna(subset=["LONGITUDE", "LATITUDE", "ID_UEV"])
+df["geometry"] = df.apply(lambda row: Point(row["LONGITUDE"], row["LATITUDE"]), axis=1)
+gdf = gpd.GeoDataFrame(df, geometry="geometry", crs="EPSG:4326").to_crs("EPSG:32188")
 
+# 🔸 Construct panel: building × month
+unique_buildings = gdf[["ID_UEV", "LATITUDE", "LONGITUDE"]].drop_duplicates()
+all_months = pd.period_range(start=gdf["month"].min(), end=gdf["month"].max(), freq="M")
+panel = pd.MultiIndex.from_product([unique_buildings["ID_UEV"], all_months],
+                                   names=["ID_UEV", "month"]).to_frame(index=False)
+panel = panel.merge(unique_buildings, on="ID_UEV", how="left")
 
-# In[15]:
+# 🔸 Label fire presence
+fires = gdf[gdf["fire"] == True][["ID_UEV", "month"]].drop_duplicates()
+fires["HAS_FIRE_THIS_MONTH"] = 1
+panel = panel.merge(fires, on=["ID_UEV", "month"], how="left")
+panel["HAS_FIRE_THIS_MONTH"] = panel["HAS_FIRE_THIS_MONTH"].fillna(0).astype(int)
 
+# 🔸 Add time-based features
+panel["month_num"] = panel["month"].dt.month
+panel["year"] = panel["month"].dt.year
 
-# Create GeoDataFrame and project to meters
-gdf_fire = gpd.GeoDataFrame(
-    df_fire,
-    geometry=gpd.points_from_xy(df_fire["LONGITUDE"], df_fire["LATITUDE"]),
-    crs="EPSG:4326"
-).to_crs("EPSG:32188")
+# 💾 Save panel
+panel.to_csv(OUTPUT_PANEL, index=False)
 
+# 🔸 Load panel for modeling
+df = pd.read_csv(OUTPUT_PANEL)
+df["month"] = pd.to_datetime(df["month"])
+df = df.sort_values(["ID_UEV", "month"])
+df["year"] = df["month"].dt.year
 
-# In[16]:
+# 🔸 Add lag features
+for lag in range(1, 4):
+    df[f"fire_last_{lag}m"] = (
+        df.groupby("ID_UEV")["HAS_FIRE_THIS_MONTH"]
+        .shift(lag)
+        .fillna(0)
+        .astype(int)
+    )
 
+# 🔸 Split into train and test
+train_df = df[df["year"] <= 2023]
+test_df = df[df["year"] == 2024]
+features = ["month_num", "fire_last_1m", "fire_last_2m", "fire_last_3m"]
+target = "HAS_FIRE_THIS_MONTH"
 
-# Add month and buffer
-gdf_fire["month"] = gdf_fire["fire_date"].dt.to_period("M")
-gdf_fire["buffer_geometry"] = gdf_fire.geometry.buffer(100)
-gdf_fire = gdf_fire.set_geometry("buffer_geometry")
-gdf_fire["buffer_id"] = gdf_fire["buffer_geometry"].apply(lambda g: hash(g.wkt))
+X_train = train_df[features]
+y_train = train_df[target]
+X_test = test_df[features]
+y_test = test_df[target]
 
+# ⚖️ Class imbalance
+scale_pos_weight = (len(y_train) - y_train.sum()) / y_train.sum()
 
-# In[17]:
+# 🧠 Train XGBoost model
+model = XGBClassifier(
+    scale_pos_weight=scale_pos_weight,
+    use_label_encoder=False,
+    eval_metric="logloss",
+    max_depth=6,
+    learning_rate=0.1,
+    n_estimators=100,
+    subsample=0.8,
+    colsample_bytree=0.8,
+    random_state=42
+)
+model.fit(X_train, y_train)
 
-
-# Fire count per buffer per month
-fire_counts = gdf_fire.groupby(["buffer_id", "month"]).size().reset_index(name="fire_count")
-fire_counts["has_fire"] = (fire_counts["fire_count"] > 0).astype(int)
-
-
-# In[18]:
-
-
-# Create full grid of buffer-month combinations
-all_months = pd.period_range(start=gdf_fire["month"].min(), end=gdf_fire["month"].max(), freq="M")
-all_buffers = gdf_fire["buffer_id"].unique()
-grid = pd.MultiIndex.from_product([all_buffers, all_months], names=["buffer_id", "month"])
-df_grid = pd.DataFrame(index=grid).reset_index()
-df_all = df_grid.merge(fire_counts[["buffer_id", "month", "has_fire"]], how="left")
-df_all["has_fire"] = df_all["has_fire"].fillna(0).astype(int)
-
-
-# In[19]:
-
-
-# Total historical fires per buffer
-hist_fires = fire_counts.groupby("buffer_id")["fire_count"].sum().reset_index()
-hist_fires.columns = ["buffer_id", "total_past_fires"]
-df_all = df_all.merge(hist_fires, on="buffer_id", how="left").fillna(0)
-
-
-# In[20]:
-
-
-# Month feature
-df_all["month_num"] = df_all["month"].dt.month
-
-
-# In[21]:
-
-
-# Export to CSV
-df_all.to_csv("fire_risk_buffer_features.csv", index=False)
-
-
-# In[22]:
-
-
-# Train and evaluate models for each month
-results = {}
-for m in sorted(df_all["month"].unique()):
-    df_month = df_all[df_all["month"] == m]
-    X = df_month[["month_num", "total_past_fires"]]
-    y = df_month["has_fire"]
-
-    if y.sum() == 0 or y.sum() == len(y):
-        continue  # skip months with no positive cases
-
-    X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
-    scale_pos_weight = (len(y_train) - sum(y_train)) / sum(y_train)
-    model = XGBClassifier(scale_pos_weight=scale_pos_weight, use_label_encoder=False, eval_metric="logloss")
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-    report = classification_report(y_test, y_pred, output_dict=True)
-    results[str(m)] = report
-
-
-# In[23]:
-
-
-# Compile results for each month
-monthly_results = pd.DataFrame({
-    month: {
-        "precision_1": res["1"]["precision"],
-        "recall_1": res["1"]["recall"],
-        "f1_1": res["1"]["f1-score"],
-        "support_1": res["1"]["support"]
-    }
-    for month, res in results.items()
-}).T
-
-
-# In[24]:
-
-
-monthly_results.to_csv("./datasets/cleaned/monthly_fire_risk_results.csv")
-monthly_results.head()
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
+# 📊 Evaluate
+y_pred = model.predict(X_test)
+print(classification_report(y_test, y_pred, digits=3))
