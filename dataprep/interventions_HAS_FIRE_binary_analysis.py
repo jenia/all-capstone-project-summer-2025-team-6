@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
+
+
 
 import pandas as pd
 import numpy as np
@@ -12,9 +12,6 @@ DESTINATION_FILE_NAME = './datasets/cleaned/interventions_cleaned_with_has_fire.
 ORIGINAL_FILE_NAME_2023_2025 = './datasets/raw/donneesouvertes-interventions-sim.csv'
 ORIGINAL_FILE_NAME_2022_BEFORE = './datasets/raw/donneesouvertes-interventions-sim2020.csv'
 
-
-
-# In[18]:
 
 
 def is_date_format(string_input: str, date_format: str) -> bool:
@@ -37,7 +34,6 @@ def is_date_format(string_input: str, date_format: str) -> bool:
         return False
 
 
-# In[19]:
 
 
 def convert_date_format(date_string: str) -> str:
@@ -62,7 +58,6 @@ def convert_date_format(date_string: str) -> str:
             return date_string  # Return original string for invalid dates
 
 
-# In[20]:
 
 
 print("Loading data ...")
@@ -70,8 +65,6 @@ df = pd.read_csv(ORIGINAL_FILE_NAME_2023_2025)
 df_old=pd.read_csv(ORIGINAL_FILE_NAME_2022_BEFORE)
 df=pd.concat([df,df_old])
 
-
-# In[21]:
 
 
 # add a column to visualize dates with non-standard format
@@ -87,7 +80,6 @@ df['CREATION_DATE_TIME']=df['CREATION_DATE_TIME'].apply(convert_date_format)
 df['CREATION_DATE_TIME']=df['CREATION_DATE_TIME'].apply(datetime.fromisoformat)
 
 
-# In[22]:
 
 
 # commented out to avoid rewriting over existing file
@@ -96,8 +88,6 @@ df['CREATION_DATE_TIME']=df['CREATION_DATE_TIME'].apply(datetime.fromisoformat)
 print("Dropping columns...")
 df=df.drop(['MTM8_X','MTM8_Y'],axis=1)
 
-
-# In[23]:
 
 
 # 🔥 Define fire-related categories based on known labels
@@ -108,7 +98,6 @@ print("Filter only fire incidents...")
 df = df[df["DESCRIPTION_GROUPE"].isin(fire_categories)]
 
 
-# In[24]:
 
 
 # Count total fire incidents
@@ -118,8 +107,6 @@ fire_incident_count = len(df)
 print(f"🔥 Total fire incidents: {fire_incident_count:,}")
 
 
-# In[25]:
-
 
 # Count by DESCRIPTION_GROUPE
 category_counts = df["DESCRIPTION_GROUPE"].value_counts()
@@ -127,8 +114,6 @@ category_counts = df["DESCRIPTION_GROUPE"].value_counts()
 print("🔥 Fire incident breakdown by type:")
 print(category_counts)
 
-
-# In[26]:
 
 
 # 📋 Check missing values
@@ -148,8 +133,6 @@ print("📉 Missing values summary:")
 print(missing_report)
 
 
-# In[27]:
-
 
 # 🔍 Check missing values in NOMBRE_UNITES
 missing_units = df["NOMBRE_UNITES"].isnull().sum()
@@ -160,13 +143,11 @@ print(f"🔢 Missing NOMBRE_UNITES values: {missing_units:,} out of {total_rows:
 print(f"📉 Missing percentage: {missing_pct:.2f}%")
 
 
-# In[28]:
 
 
 df.head()
 
 
-# In[29]:
 
 
 # 💾 Save the filtered dataset with fire categories
@@ -174,127 +155,4 @@ output_path = "interventions_cleaned_with_has_fire.csv"
 df.to_csv(output_path, index=False)
 
 print(f"✅ Dataset saved as '{output_path}' with {len(df):,} fire incident records.")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[16]:
-
-
-import geopandas as gpd
-from shapely.geometry import Point
-
-# Convert to GeoDataFrame
-fire_gdf = gpd.GeoDataFrame(
-    df,
-    geometry=gpd.points_from_xy(df["LONGITUDE"], df["LATITUDE"]),
-    crs="EPSG:4326"
-)
-
-
-# In[17]:
-
-
-fire_gdf = fire_gdf.to_crs(epsg=32188)
-
-
-# In[18]:
-
-
-fire_gdf["buffer"] = fire_gdf.geometry.buffer(100)
-buffer_gdf = fire_gdf.set_geometry("buffer")
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
 

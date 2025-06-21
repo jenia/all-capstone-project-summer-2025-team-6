@@ -1,19 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[24]:
-
-
 import pandas as pd
 
 
-# In[25]:
-
-
-#df_eval = pd.read_csv('uniteevaluationfonciere.csv')
-
-
-# In[ ]:
 
 
 ORIGINAL_FILE_NAME_EVAL = './datasets/raw/uniteevaluationfonciere.csv'
@@ -44,6 +31,7 @@ import matplotlib.pyplot as plt
 # Check distribution of ANNEE_CONSTRUCTION
 year_series = df_eval["ANNEE_CONSTRUCTION"]
 
+
 # Plot histogram to identify outliers visually
 plt.figure(figsize=(10, 4))
 plt.hist(year_series, bins=80, edgecolor='black')
@@ -57,8 +45,6 @@ plt.show()
 # Get descriptive statistics to help define outliers
 year_series.describe()
 
-
-# In[29]:
 
 
 import numpy as np
