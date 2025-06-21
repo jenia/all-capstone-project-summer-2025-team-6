@@ -122,7 +122,7 @@ This script performs:
 
 
 
-## Models tried
+# 3. Models tried
 
 ### RandomForestClassifier
 (Located in file [EDA-incident-evaluation-fonciere.ipynb](EDA-incident-evaluation-fonciere.ipynb), for pipeline see [instructions](README.md/#how-to-run-the-data-pipeline))
