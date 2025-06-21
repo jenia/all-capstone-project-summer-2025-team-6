@@ -10,7 +10,7 @@ Objective: The objective of this project is to predict high fire risk areas by m
 
 ### RandomForestClassifier
 
-**Input data used: `evaluation_with_fire_and_coordinates_and_date.csv`**
+**Input data used**: *evaluation_with_fire_and_coordinates_and_date.csv`*
 
 **Target Variable**
 
@@ -26,29 +26,33 @@ Where X includes:
 - `density`
 
 
-Confusion Matrix:
+**Confusion Matrix**
 
-    [[64073  9540]
-     [ 8273 50871]]
+|               | Predicted False | Predicted True |
+|---------------|------------------|----------------|
+| **Actual False** | 64,073           | 9,540          |
+| **Actual True**  | 8,273            | 50,871         |
 
 
 
-Classification Report:
 
-              precision    recall  f1-score   support
+**Classification Report**
 
-       False       0.89      0.87      0.88     73613
-        True       0.84      0.86      0.85     59144
+| Label        | Precision | Recall | F1-score | Support |
+|--------------|-----------|--------|----------|---------|
+| **False**    | 0.89      | 0.87   | 0.88     | 73,613  |
+| **True**     | 0.84      | 0.86   | 0.85     | 59,144  |
+|              |           |        |          |         |
+| **Accuracy** |           |        | 0.87     | 132,757 |
+| **Macro avg**| 0.86      | 0.87   | 0.86     | 132,757 |
+| **Weighted avg** | 0.87  | 0.87   | 0.87     | 132,757 |
 
-    accuracy                           0.87    132757
-    macro avg       0.86      0.87      0.86    132757
-    weighted avg    0.87      0.87      0.87    132757
 
-    ROC AUC: 0.936
+ROC AUC: 0.936
 
 ### LGBMClassifier
 
-**Input data used: `evaluation_with_fire_and_coordinates_and_date.csv`**
+**Input data used**: *evaluation_with_fire_and_coordinates_and_date.csv*
 
 **Target Variable**
 
@@ -66,15 +70,21 @@ Where X includes:
 
 **Note**: Properties with no recorded fire were assigned to month 13 to indicate the absence of fire incidents
 
-    accuracy                           0.676    132757
-    macro avg      0.457     0.348     0.388    132757
-    weighted avg   0.629     0.676     0.640    132757
+| Metric         | Precision | Recall | F1-score | Support |
+|----------------|-----------|--------|----------|---------|
+| **Accuracy**   |           |        | 0.676    | 132,757 |
+| **Macro avg**  | 0.457     | 0.348  | 0.388    | 132,757 |
+| **Weighted avg** | 0.629   | 0.676  | 0.640    | 132,757 |
+
 
 I then tried to train only on months 1-12:
 
-    accuracy                           0.434     58954
-    macro avg      0.439     0.433     0.434     58954
-    weighted avg   0.437     0.434     0.433     58954
+| Metric           | Precision | Recall | F1-score | Support |
+|------------------|-----------|--------|----------|---------|
+| **Accuracy**     |           |        | 0.434    | 58,954  |
+| **Macro avg**    | 0.439     | 0.433  | 0.434    | 58,954  |
+| **Weighted avg** | 0.437     | 0.434  | 0.433    | 58,954  |
+
 
 
 ## 1. dataprep/evaluation_fonciere.py:  We use the dataset uniteevaluationfonciere.csv from the website https://donnees.montreal.ca/dataset/unites-evaluation-fonciere 
