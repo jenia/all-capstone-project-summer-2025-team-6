@@ -8,7 +8,9 @@ import numpy as np
 SOURCE_FILE = os.path.join('.','datasets','merged','eval_with_coord.csv')
 DESTINATION_FILE = os.path.join('.','datasets','merged','base_panel_month.csv')
 INTERVENTIONS_FILE_PATH = os.path.join('.','datasets','cleaned','interventions_cleaned.csv')
+print(f"Loading dataset from {SOURCE_FILE}...")
 df = pd.read_csv(SOURCE_FILE)
+print(f"dataset loaded - shape {df.shape}")
 
 
 #build geo dataframe from evaluation df
@@ -28,6 +30,9 @@ df = df.loc[df.index.repeat(12)].assign(month=np.tile(months, len(df))).reset_in
 
 # %%
 incidents=pd.read_csv(INTERVENTIONS_FILE_PATH,parse_dates=['CREATION_DATE_TIME'])
+print(incidents.columns)
+incidents=incidents[incidents['DESCRIPTION_GROUPE']=='INCENDIE']
+print(f"Incident categories kept: {incidents['DESCRIPTION_GROUPE'].unique()}")
 # -- Project both to meters for spatial operations ---
 eval_gdf = eval_gdf.to_crs(epsg=32188)
 incident_gdf = gpd.GeoDataFrame(
@@ -41,9 +46,9 @@ incident_gdf = gpd.GeoDataFrame(
 incident_gdf = incident_gdf.to_crs(epsg=32188)
 
 
-df['fire']=False #sets all values to False by default
+df['HAS_FIRE_IN_MONTH']=False #sets all values to False by default
 print(f"Starting incident matching")
-print(f"df['fire'] contains {df['fire'].value_counts()}")
+print(f"df['HAS_FIRE_IN_MONTH'] contains {df['HAS_FIRE_IN_MONTH'].value_counts()}")
 for m in months:
     
     monthly_incidents_gdf=incident_gdf[incident_gdf['CREATION_DATE_TIME'].dt.month==m].copy()
@@ -60,13 +65,13 @@ for m in months:
     # print(f"joined length : {joined.shape}")
     # --- Use unique matched ID_UEV set to mark fires ---
     matched_ids = set(joined["ID_UEV"])
-    # print(f"matched ids: {len(matched_ids)} - first {list(matched_ids)[0]}")
-    #rint('-'.join(sorted(list(str(id) for id in matched_ids))))
-    # --- Back to original eval_df (including unmatched rows) ---
-    # Assign fire flag based on ID_UEV
-    # print(df["ID_UEV"].isin(matched_ids) & df['month']==m)
-    #df["fire"] = (df["ID_UEV"].isin(matched_ids) & df['month']==m) | df['fire']==True # added the condition that if fire is already set to true we don't overwrite it
-    df["fire"] = (df["ID_UEV"].isin(matched_ids) & (df['month']==m)) | (df['fire']==True)
+    # assign HAS_FIRE_IN_MONTH VALUE if there has been a fire in this month
+    df["HAS_FIRE_IN_MONTH"] = (df["ID_UEV"].isin(matched_ids) & (df['month']==m)) | (df['HAS_FIRE_IN_MONTH']==True)
     print(f"Finished processing month {m}")
-    print(f"df['fire'] contains {df['fire'].value_counts()}")
+    print(f"df['HAS_FIRE_IN_MONTH'] contains {df['HAS_FIRE_IN_MONTH'].value_counts()}")
 
+
+print(f"Saving file to {DESTINATION_FILE}")
+print(f"Resulting dataframe's shape: {df.shape}")
+df.to_csv(DESTINATION_FILE,index=False)
+print(f"File saved")
