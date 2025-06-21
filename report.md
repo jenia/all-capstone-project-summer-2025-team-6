@@ -21,30 +21,30 @@ Objective: The objective of this project is to predict high fire risk areas by m
 # 2. Data Cleaning and Merging Pipeline
 
 
-# Description: evaluation_fonciere.py
+## Description: evaluation_fonciere.py
 
-## 🏗️ evaluation_fonciere.py: Clean and Feature Engineer Property Evaluation Data
+### 🏗️ evaluation_fonciere.py: Clean and Feature Engineer Property Evaluation Data
 
-### 📁 File Location
+#### 📁 File Location
 ```
 dataprep/evaluation_fonciere.py
 ```
 
-### 📄 Description
+#### 📄 Description
 This script processes the [Montréal property evaluation dataset](https://donnees.montreal.ca/dataset/unites-evaluation-fonciere), cleans it, and applies basic feature engineering to prepare it for downstream fire risk modeling.
 
-### 🚀 How to Run
+#### 🚀 How to Run
 ```bash
 python ./dataprep/evaluation_fonciere.py
 ```
 
-### 📤 Output
+#### 📤 Output
 - `datasets/cleaned/eval_cleaned.csv`  
 - `datasets/cleaned/eval_cleaned_feat_eng.csv` ← *(Recommended for modeling)*
 
 ---
 
-### 🔍 Summary of Code Workflow
+#### 🔍 Summary of Code Workflow
 
 This script performs:
 - Cleaning of raw columns
@@ -54,7 +54,7 @@ This script performs:
 
 ---
 
-### ✅ Main Steps
+#### ✅ Main Steps
 
 1. **Load raw dataset**
 2. **Clean columns:**
@@ -71,7 +71,7 @@ This script performs:
 
 ---
 
-### 🧹 Data Cleaning Summary
+#### 🧹 Data Cleaning Summary
 
 | Column                | Cleaning Strategy                                                                 |
 |-----------------------|-----------------------------------------------------------------------------------|
@@ -82,7 +82,7 @@ This script performs:
 
 ---
 
-### 🛠️ Feature Engineering Summary
+#### 🛠️ Feature Engineering Summary
 
 | Feature Name             | Description                                                     |
 |--------------------------|-----------------------------------------------------------------|
@@ -96,7 +96,7 @@ This script performs:
 
 ---
 
-### 🗃️ Dropped/Excluded Columns
+#### 🗃️ Dropped/Excluded Columns
 
 - `_ANNEE_CONSTRUCTION_NUM`
 - Temporary columns used for imputation
@@ -104,7 +104,7 @@ This script performs:
 
 ---
 
-### 📦 Final Output Columns
+#### 📦 Final Output Columns
 
 ```text
 [
