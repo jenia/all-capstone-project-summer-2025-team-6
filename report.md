@@ -3,9 +3,8 @@
 We clean in evaluation_fonciere.py and we output the dataset eval_cleaned.csv in datasets/cleaned with additional feature enginnering we get **eval_cleaned_feat_eng.csv**
 
 
-```commandline python ./dataprep/evaluation_fonciere.py ===> eval_cleaned.csv
-
-(to drop later if it doesn't crash the code of others)+ for feature engineering use eval_cleaned_feat_eng.csv
+To run this code python ./dataprep/evaluation_fonciere.py 
+output ===> eval_cleaned.csv (to drop later if it doesn't crash the code of others)+ for feature engineering use eval_cleaned_feat_eng.csv
 
 🔍 Summary of Code Workflow This script performs data cleaning and feature engineering on the Montréal property evaluation dataset (uniteevaluationfonciere.csv). The goal is to prepare a high-quality dataset for fire risk modeling by cleaning critical variables, imputing missing values intelligently, and generating informative derived features.
 
