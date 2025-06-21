@@ -23,6 +23,36 @@ python ./dataprep/main_evaluation_fonciere.py
 You must run the `python ./dataprep/main_evaluation_fonciere.py` to get the file *evaluation_with_fire_and_coordinates_and_date.csv*
 I did not commit it because it's 100MB big.
 
+Note: alternatively, this command runs the whole pipeline
+```commandline
+python ./datapipeline_no_panel.py
+```
+
+# Panel data approach
+This approach avoids issue with fire_date being null in the merged dataset when there is no fire. 
+Each row is represented once per month to keep some homogeneity 
+| ID_UEV        | Feature X      | MONTH | HAS_FIRE_IN_MONTH |
+| ------------- | -------------- | ----- | ----------------- |
+| 1234          | Value for 1234 |   1   |             False |
+| 1234          | Value for 1234 |   2   |              True |
+| 1234          | Value for 1234 |   ... |         ...       |
+| 1234          | Value for 1234 |  12   |             False | 
+| 4321          | Value for 4321 |   1   |             False |
+| 4321          | Value for 4321 |  ...  |             False |
+| 4321          | Value for 4321 |   12  |              True |
+
+The HAS_FIRE_IN_MONTH column is True if there has been a fire within a 100m radius of this address in the specific MONTH.
+
+
+## [Data pipeline diagram - Panel](https://docs.google.com/drawings/d/1LDBP_V14_hb_kPNOQbJvcjOaFdfQV9Tg8OQIGbXWYMY/edit?usp=sharing)
+![panel_pipeline.png](images/panel_pipeline.png)
+Note: items in red are yet to be completed
+
+### [Running the panel data pipeline]
+```commandline
+python ./datapipeline_panel_month.py
+```
+
 ## Testing temporal fire risk modeling
 `datamodel/` contains a Python script for testing temporal fire risk modeling.  
 Please note that this is an early test — the results are not yet precise.  
