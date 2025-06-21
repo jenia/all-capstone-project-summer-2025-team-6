@@ -35,7 +35,7 @@ You can execute it from the project root with:
 # Data Cleaning and Merging Pipeline
 
 
-#1. Description: evaluation_fonciere.py
+# 1. Description: evaluation_fonciere.py
 
 ## 🏗️ evaluation_fonciere.py: Clean and Feature Engineer Property Evaluation Data
 
