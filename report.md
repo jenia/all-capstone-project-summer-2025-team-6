@@ -9,6 +9,7 @@ Objective: The objective of this project is to predict high fire risk areas by m
 ## Models tried
 
 ### RandomForestClassifier
+(Located in file [EDA-incident-evaluation-fonciere.ipynb](EDA-incident-evaluation-fonciere.ipynb), for pipeline see [instructions](README.md/#how-to-run-the-data-pipeline))
 
 **Input data used**: *evaluation_with_fire_and_coordinates_and_date.csv`*
 
@@ -51,6 +52,7 @@ Where X includes:
 ROC AUC: 0.936
 
 ### LGBMClassifier
+(Located in file [Model-building.ipynb](Model-building.ipynb), for pipeline see [instructions](README.md/#how-to-run-the-data-pipeline))
 
 **Input data used**: *evaluation_with_fire_and_coordinates_and_date.csv*
 
