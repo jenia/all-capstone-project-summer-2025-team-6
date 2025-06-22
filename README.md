@@ -5,9 +5,7 @@
 
 - [Data Pipeline Diagram](#data-pipeline-diagram)
 - [How to Run the Data Pipeline](#how-to-run-the-data-pipeline)
-- [Testing Temporal Fire Risk Modeling](#testing-temporal-fire-risk-modeling)
-  - [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
-    - [Description: evaluation_fonciere.py](#description-evaluation_foncierepy)
+
 ## [Data pipeline diagram](https://docs.google.com/drawings/d/1JSGUZZg9EYoyRtfRQbYmxvmRRgAAAtKCh4ktoKaSbEA/edit)
 
 ![img.png](images/img.png)
