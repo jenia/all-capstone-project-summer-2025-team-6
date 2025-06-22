@@ -248,6 +248,88 @@ All file paths are dynamically resolved.
 
 
 
+## Description : dense_panel_building_month.py
+
+# 🔍 Fire Risk Monthly Panel Construction — Detailed Summary
+
+This script builds a **dense monthly panel** of buildings with engineered features and fire occurrence labels. It is designed to support predictive fire risk modeling at the building-month level.
+
+---
+
+## 📁 File Paths and Setup
+
+- Uses `Path.cwd().parents[0]` to define the project root
+- **Input**: `evaluation_fire_coordinates_date_feat_eng_2.csv`
+- **Output**: `building_month_fire_panel_feat_eng.csv`
+- Verifies that input file and output directory exist
+
+---
+
+## 📥 Load and Preprocess Dataset
+
+- Loads the CSV into a pandas DataFrame
+- Parses `fire_date` into `datetime` format
+- Creates a `month` feature (monthly period)
+- Drops rows with missing `ID_UEV`, `LATITUDE`, or `LONGITUDE`
+- Converts DataFrame to a projected `GeoDataFrame` using EPSG:32188
+
+---
+
+## 🏢 Create Dense Panel: Building × Month
+
+1. Extracts unique buildings (`ID_UEV`, LAT/LON)
+2. Constructs a **cartesian product** of all buildings and all available months
+3. Merges back LAT/LON to complete geolocation info
+
+---
+
+## 🔥 Fire Incident Labeling
+
+- Filters the GeoDataFrame to get fire records (`fire == True`)
+- Flags each building-month with `HAS_FIRE_THIS_MONTH = 1` if fire occurred
+- Fills all other records with `0`
+
+---
+
+## 🧱 Merge Static Building Features
+
+- Static columns include:
+  - `MUNICIPALITE`, `ETAGE_HORS_SOL`, `NOMBRE_LOGEMENT`, `AGE_BATIMENT`
+  - `CODE_UTILISATION`, `CATEGORIE_UEF`, `SUPERFICIE_TERRAIN`, `SUPERFICIE_BATIMENT`
+  - `NO_ARROND_ILE_CUM`, `RATIO_SURFACE`, `DENSITE_LOGEMENT`, `HAS_MULTIPLE_LOGEMENTS`
+  - `FIRE_COUNT_LAST_YEAR_ZONE`, `BUILDING_COUNT`, `FIRE_RATE_ZONE`, etc.
+- Removes duplicates based on `ID_UEV`
+- Merges static features into the panel
+
+---
+
+## 🧠 Feature Engineering: Temporal Fire History
+
+Adds the following **lag and cumulative features**:
+- `fire_last_1m`, `fire_last_2m`, `fire_last_3m`: fires in past 1–3 months
+- `fire_cumcount`: cumulative fires since beginning
+- `fire_rolling_3m`, `fire_rolling_6m`, `fire_rolling_12m`: rolling fire counts
+- `has_fire_last_month`: binary lag indicator
+- `months_since_last_fire`: time since last recorded fire (999 if none)
+
+---
+
+## 🕒 Time Features
+
+Adds:
+- `month_num`: numerical month
+- `year`: calendar year
+
+---
+
+## 💾 Save Panel
+
+Saves the final panel to:
+```python
+datamodel/building_month_fire_panel_feat_eng.csv
+
+
+
 
 # 3. Models tried
 
