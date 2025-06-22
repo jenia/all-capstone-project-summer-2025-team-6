@@ -428,3 +428,186 @@ I then tried to train only on months 1-12:
 | **Weighted avg** | 0.437     | 0.434  | 0.433    | 58,954  |
 
 
+
+
+
+### Xgboost 
+
+The model is located in /dataprep/time_model_Xgboost.ipynb
+
+This script trains and evaluates a binary classifier to predict whether a fire will occur in a specific building in a given month. It utilizes a dense panel dataset with rich building-level and temporal-spatial features.
+
+🔢 Data Pipeline
+
+Input file: building_month_fire_panel_feat_eng.csv
+
+Granularity: Monthly panel of all buildings
+
+Target Variable: HAS_FIRE_THIS_MONTH (0 or 1)
+
+🔧 Feature Engineering
+
+Structural & Geographic Features:
+
+MUNICIPALITE, ETAGE_HORS_SOL, NOMBRE_LOGEMENT, AGE_BATIMENT
+
+SUPERFICIE_TERRAIN, SUPERFICIE_BATIMENT, RATIO_SURFACE, DENSITE_LOGEMENT
+
+HAS_MULTIPLE_LOGEMENTS, CODE_UTILISATION, CATEGORIE_UEF
+
+NO_ARROND_ILE_CUM, BUILDING_COUNT
+
+Zone-Level Fire Risk:
+
+FIRE_FREQUENCY_ZONE, FIRE_RATE_ZONE, FIRE_COUNT_LAST_YEAR_ZONE
+
+FIRE_RATE_ZONE_NORM, FIRE_COUNT_LAST_YEAR_ZONE_NORM
+
+Temporal Lag Features:
+
+fire_last_1m, fire_last_2m, fire_last_3m
+
+fire_cumcount, fire_rolling_3m, fire_rolling_6m, fire_rolling_12m
+
+month_num, year
+
+🚀 Model: XGBoostClassifier
+
+Handles class imbalance with scale_pos_weight
+
+Supports categorical variables with enable_categorical=True
+
+Optimized with:
+
+n_estimators=200, max_depth=6, learning_rate=0.1
+
+subsample=0.8, colsample_bytree=0.8
+
+🔹 Evaluation (Default Threshold = 0.5)
+
+Class
+
+Precision
+
+Recall
+
+F1-score
+
+Support
+
+No Fire (0)
+
+0.9903
+
+0.7436
+
+0.8494
+
+3,674,405
+
+Fire (1)
+
+0.0243
+
+0.4665
+
+0.0461
+
+50,239
+
+Accuracy: 73.99%
+
+Macro F1: 0.4477
+
+Weighted F1: 0.8379
+
+❌ Precision for fires is very low, but recall is moderate. Useful for prioritization, not alarms.
+
+⚖️ Threshold Optimization
+
+Evaluated thresholds: 0.2 → 0.55
+
+Best F2 Score (recall-focused): 0.55
+
+Threshold
+
+Precision
+
+Recall
+
+F2 Score
+
+0.50
+
+0.027
+
+0.603
+
+0.113
+
+0.55
+
+0.0262
+
+0.378
+
+0.103
+
+🔬 Final Model Evaluation @ Threshold = 0.55
+
+Class
+
+Precision
+
+Recall
+
+F1-score
+
+Support
+
+No Fire
+
+0.9896
+
+0.8081
+
+0.8897
+
+3,674,405
+
+Fire
+
+0.0262
+
+0.3780
+
+0.0490
+
+50,239
+
+Confusion Matrix:
+
+True Negatives: ~2.97M
+
+False Positives: ~700k
+
+False Negatives: ~31k
+
+True Positives: ~19k
+
+📊 High false positives but acceptable for early warning.
+
+📌 Recommendations
+
+- Use threshold = 0.50–0.55 depending on recall vs precision preference
+
+- Precision is low, so interpret predictions as risk levels
+
+- Use predicted probabilities for prioritizing inspections
+
+- Add weather, crime, or inspection features for improved separation
+
+
+
+
+
