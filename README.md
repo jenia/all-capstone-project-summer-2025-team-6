@@ -55,7 +55,7 @@ python ./datapipeline_panel_month.py
 
 
 
-#Option 2: (To be unified in second stage with the pipeline discussed above)#
+# Option 2: (To be unified in second stage with the pipeline discussed above)
 
 ## [Data pipeline 2 diagram - Panel](https://docs.google.com/drawings/d/1tBfWPbFFkzylVUWRJzzGeF4eLe8oS1lH3CMAPt0VUFo/edit?usp=drive_link)
 ![panel_pipeline_2.png](images/panel_pipeline_2.png)
