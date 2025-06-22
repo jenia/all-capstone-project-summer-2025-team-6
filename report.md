@@ -252,81 +252,100 @@ All file paths are dynamically resolved.
 
 # 🔍 Fire Risk Monthly Panel Construction — Detailed Summary
 
-This script builds a **dense monthly panel** of buildings with engineered features and fire occurrence labels. It is designed to support predictive fire risk modeling at the building-month level.
+This document explains the Python script that constructs a monthly panel dataset of buildings in Montréal enriched with fire event labels and engineered features. The final output is a panel of building-month combinations, used for predictive modeling of fire incidents.
 
----
+🗂️ Input & Output
 
-## 📁 File Paths and Setup
+Input:
 
-- Uses `Path.cwd().parents[0]` to define the project root
-- **Input**: `evaluation_fire_coordinates_date_feat_eng_2.csv`
-- **Output**: `building_month_fire_panel_feat_eng.csv`
-- Verifies that input file and output directory exist
+evaluation_fire_coordinates_date_feat_eng_2.csv: Cleaned building dataset with fire incidents and coordinates
 
----
+Output:
 
-## 📥 Load and Preprocess Dataset
+building_month_fire_panel_feat_eng.csv: Building-month panel with labels and features
 
-- Loads the CSV into a pandas DataFrame
-- Parses `fire_date` into `datetime` format
-- Creates a `month` feature (monthly period)
-- Drops rows with missing `ID_UEV`, `LATITUDE`, or `LONGITUDE`
-- Converts DataFrame to a projected `GeoDataFrame` using EPSG:32188
+📊 Workflow Steps
 
----
+✅ Step 1: Setup Paths and Load Data
 
-## 🏢 Create Dense Panel: Building × Month
+Define project root with Path.cwd().parents[1]
 
-1. Extracts unique buildings (`ID_UEV`, LAT/LON)
-2. Constructs a **cartesian product** of all buildings and all available months
-3. Merges back LAT/LON to complete geolocation info
+Load CSV using pandas
 
----
+Preview data and confirm file existence
 
-## 🔥 Fire Incident Labeling
+✅ Step 2: Preprocessing & Cleaning
 
-- Filters the GeoDataFrame to get fire records (`fire == True`)
-- Flags each building-month with `HAS_FIRE_THIS_MONTH = 1` if fire occurred
-- Fills all other records with `0`
+Convert fire_date to datetime
 
----
+Create month feature
 
-## 🧱 Merge Static Building Features
+Drop records missing LONGITUDE, LATITUDE, or ID_UEV
 
-- Static columns include:
-  - `MUNICIPALITE`, `ETAGE_HORS_SOL`, `NOMBRE_LOGEMENT`, `AGE_BATIMENT`
-  - `CODE_UTILISATION`, `CATEGORIE_UEF`, `SUPERFICIE_TERRAIN`, `SUPERFICIE_BATIMENT`
-  - `NO_ARROND_ILE_CUM`, `RATIO_SURFACE`, `DENSITE_LOGEMENT`, `HAS_MULTIPLE_LOGEMENTS`
-  - `FIRE_COUNT_LAST_YEAR_ZONE`, `BUILDING_COUNT`, `FIRE_RATE_ZONE`, etc.
-- Removes duplicates based on `ID_UEV`
-- Merges static features into the panel
+Convert to GeoDataFrame with EPSG:32188 projection
 
----
+✅ Step 3: Construct Dense Panel
 
-## 🧠 Feature Engineering: Temporal Fire History
+Extract unique buildings
 
-Adds the following **lag and cumulative features**:
-- `fire_last_1m`, `fire_last_2m`, `fire_last_3m`: fires in past 1–3 months
-- `fire_cumcount`: cumulative fires since beginning
-- `fire_rolling_3m`, `fire_rolling_6m`, `fire_rolling_12m`: rolling fire counts
-- `has_fire_last_month`: binary lag indicator
-- `months_since_last_fire`: time since last recorded fire (999 if none)
+Generate full range of monthly periods
 
----
+Create full cartesian product → Dense panel (building × month)
 
-## 🕒 Time Features
+Merge with building coordinates
 
-Adds:
-- `month_num`: numerical month
-- `year`: calendar year
+✅ Step 4: Label Fire Occurrence
 
----
+Identify building-months with fire events
 
-## 💾 Save Panel
+Create HAS_FIRE_THIS_MONTH binary column
 
-Saves the final panel to:
-```python
-datamodel/building_month_fire_panel_feat_eng.csv
+✅ Step 5: Time-Based Features
+
+Extract month_num and year
+
+Add lag features:
+
+fire_last_1m, fire_last_2m, fire_last_3m
+
+Add cumulative and rolling fire counts:
+
+fire_cumcount, fire_rolling_3m, fire_rolling_6m, fire_rolling_12m
+
+Add recency features:
+
+has_fire_last_month, months_since_last_fire
+
+✅ Step 6: Merge Static Building Features
+
+Extract one row per building from cleaned GeoDataFrame
+
+Selected static columns:
+
+MUNICIPALITE, ETAGE_HORS_SOL, NOMBRE_LOGEMENT, AGE_BATIMENT
+
+CODE_UTILISATION, CATEGORIE_UEF, SUPERFICIE_TERRAIN, SUPERFICIE_BATIMENT
+
+NO_ARROND_ILE_CUM, RATIO_SURFACE, DENSITE_LOGEMENT, HAS_MULTIPLE_LOGEMENTS
+
+Fire zone features: FIRE_FREQUENCY_ZONE, FIRE_RATE_ZONE, FIRE_COUNT_LAST_YEAR_ZONE, etc.
+
+Ensure alignment using valid building IDs
+
+✅ Step 7: Save Final Dataset
+
+Export the resulting panel to CSV:
+
+datasets/cleaned/building_month_fire_panel_feat_eng.csv
+
+🚀 Next Steps
+
+Add weather, crime, or inspection datasets for richer modeling
+
+Evaluate model with recall and Precision@K
+
+Consider borough-level aggregation or modeling using NO_ARROND_ILE_CUM
+
 
 
 
