@@ -553,12 +553,6 @@ Evaluated thresholds: `0.2` → `0.55`
 XGBoost + panel-level fire features + lag history yields a decent early-warning fire detection model. Prioritize **recall and interpretability**, refine with more context over time.
 """
 
-# Save as .md file
-output_path = "/mnt/data/fire_risk_xgboost_summary.md"
-with open(output_path, "w", encoding="utf-8") as f:
-    f.write(markdown_content)
-
-output_path
 
 
 
