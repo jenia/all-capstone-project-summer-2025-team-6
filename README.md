@@ -61,12 +61,12 @@ Option 2: (To be unified in second stage with the pipeline discussed above)
 I will write the details about input and output
 
 ```commandline
-python ./dataprep/evaluation_fonciere.py
-python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
-python ./dataprep/main_evaluation_feat_eng.py
+python ./dataprep/evaluation_fonciere.py                   ====>eval_cleaned_feat_eng.csv
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py ====> interventions_cleaned_with_has_fire.csv
+python ./dataprep/main_evaluation_feat_eng.py              ====> eval_fire_Coordinates_date_feat_eng_2.csv
 
 
-python ./dataprep/dense_panel_building_month.py
+python ./dataprep/dense_panel_building_month.py         ====> 
 
 for time model run in dataprep:  time_model_Xgboost.ipynb   (When we run the same .py file we are having a memory error)
 ```
