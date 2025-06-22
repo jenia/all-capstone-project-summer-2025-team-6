@@ -67,6 +67,8 @@ python ./dataprep/main_evaluation_feat_eng.py
 
 
 python ./dataprep/dense_panel_building_month.py
+
+for time model run in dataprep:  time_model_Xgboost.ipynb   (When we run the same .py file we are having a memory error)
 ```
 
 
