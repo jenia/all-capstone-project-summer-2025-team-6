@@ -53,6 +53,26 @@ Note: items in red are yet to be completed
 python ./datapipeline_panel_month.py
 ```
 
+
+
+
+
+Option 2: (To be unified in second stage with the pipeline discussed above)
+I will write the details about input and output
+
+```commandline
+python ./dataprep/evaluation_fonciere.py
+python ./dataprep/interventions_HAS_FIRE_binary_analysis.py
+python ./dataprep/main_evaluation_feat_eng.py
+
+
+python ./dataprep/dense_panel_building_month.py
+```
+
+
+
+
+
 ## Testing temporal fire risk modeling
 `datamodel/` contains a Python script for testing temporal fire risk modeling.  
 Please note that this is an early test — the results are not yet precise.  
