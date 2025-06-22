@@ -291,6 +291,9 @@ panel.shape
 
 # 💾 Save panel
 panel.to_csv(OUTPUT_PANEL, index=False)
+print(f"✅ Panel saved to {OUTPUT_PANEL}")
+
+print("Saving to:", OUTPUT_PANEL.resolve())
 
 
 
