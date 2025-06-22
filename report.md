@@ -7,6 +7,7 @@
 2. [Models Tried](#models-tried)
  - [RandomForestClassifier](#randomforestclassifier)
  - [LGBMClassifier](#lgbmclassifier)
+ - [Xgboost](#Xgboost)
 
 
 
