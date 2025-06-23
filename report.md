@@ -4,12 +4,12 @@
 
 1. [Purpose](#purpose)
 2. [Data Cleaning and Merging Pipeline](#data-cleaning-and-merging-pipeline)
-2. [Models Tried](#models-tried)
+3. [Models Tried](#models-tried)
  - [RandomForestClassifier](#randomforestclassifier)
  - [LGBMClassifier](#lgbmclassifier)
  - [Xgboost](#Xgboost)
 
-
+4. [Forcasting and visualization](Fprecasting and visualizations)
 
 ## Purpose
 
@@ -557,4 +557,106 @@ XGBoost + panel-level fire features + lag history yields a decent early-warning 
 
 
 
+4. ## Forecasting and visualization
+
+
+# 🔥 Monthly Fire Risk Forecasting with XGBoost – Project Summary
+
+This script implements a full end-to-end pipeline for monthly fire risk prediction in Montréal using historical building data, engineered features, and an XGBoost classifier. It includes model training, threshold tuning, forecasting future risk, and generating interactive heatmaps for visual interpretation.
+
+---
+
+## 📁 Data Overview
+
+### Input Files
+- `building_month_fire_panel_feat_eng.csv`: Monthly panel of building features and historical fire labels.
+- `evaluation_fire_coordinates_date_feat_eng_2.csv`: Coordinates and property attributes used for mapping.
+
+### Target Variable
+- `HAS_FIRE_THIS_MONTH`: Binary variable indicating whether a fire occurred in a given month for a building.
+
+---
+
+## 🧪 Feature Engineering
+
+### Lag Features
+- `fire_last_1m`, `fire_last_2m`, `fire_last_3m`: Fires in previous months per building.
+- `fire_cumcount`, `fire_rolling_3m`, `fire_rolling_6m`, `fire_rolling_12m`: Cumulative or smoothed fire indicators.
+
+### Static and Zone Features
+- Includes building characteristics (e.g., age, size, density), zone-level fire statistics, and encoded categories.
+
+---
+
+## 🧠 Model Training
+
+### Model: `XGBClassifier`
+- Handles class imbalance using `scale_pos_weight`.
+- Uses 200 estimators, max depth of 6, and categorical encoding.
+- Trained on data from years ≤ 2023 and tested on 2024 data.
+
+---
+
+## 📊 Evaluation and Threshold Tuning
+
+### Metrics
+- Imbalanced classification: only ~1.3% of data are fire cases.
+- Default threshold (0.5) leads to poor precision for fire class.
+- High recall at low thresholds, but many false positives.
+
+### Optimal Threshold
+- Evaluated using Precision, Recall, and F2 Score.
+- Best **F2 Score ≈ 0.103** at **threshold = 0.55**, prioritizing recall over precision.
+- Trade-off: higher recall (catching more fires) with acceptable false positives for early warning.
+
+---
+
+## 🔮 Future Panel Forecasting
+
+- Generated fire risk predictions for the next **6 months** (panel built using unique buildings × future months).
+- Static features frozen from latest available data.
+- Missing time-dependent features (e.g., recent fires) set to zero as placeholders.
+
+---
+
+## 🌍 Visualization
+
+### Interactive Folium Heatmaps
+- **Map Layers**: Fire risk scores overlaid as a heatmap with a red–orange–yellow gradient.
+- **Monthly Maps**: Visuals generated per month using ipywidgets for interactive selection.
+- **Thresholding**: Only predictions with risk ≥ 0.5 included in visual maps.
+- **Legend**: Custom HTML element included for interpretation.
+
+---
+
+## ✅ Model Deployment Steps
+
+1. Save the trained XGBoost model using `joblib`.
+2. Load future panel, run predictions using saved model.
+3. Merge predictions with coordinates.
+4. Save both `.csv` predictions and `.html` maps.
+
+---
+
+## 📌 Recommendations
+
+### Use Threshold = 0.55
+- Balanced fire detection rate (recall ~38%) with manageable false positives.
+- Suitable for **early warning and resource prioritization** (not final decision making).
+
+### Improve Model By:
+- Adding external data (e.g., weather, past interventions, crime data).
+- Testing ensemble models.
+- Ranking buildings by predicted probability for inspection priority.
+
+---
+
+## 📂 Output Files
+- `fire_risk_heatmap.html`: Interactive map for current/future fire risks.
+- `future_fire_risk_panel_6m.csv`: Feature panel for 6-month forecast.
+- `future_panel_predictions.csv`: Fire probabilities for each building-month.
+- `xgb_fire_model.pkl`: Trained XGBoost model for reuse.
+- `fire_risk_map_august_2025.html`: Example monthly forecast visualization.
+
+---
 
