@@ -9,7 +9,7 @@
  - [LGBMClassifier](#lgbmclassifier)
  - [Xgboost](#Xgboost)
 
-4. [Forcasting and visualization](Fprecasting and visualizations)
+4. [Forcasting and visualization](#Fprecasting and visualizations)
 
 ## Purpose
 
