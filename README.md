@@ -74,7 +74,7 @@ python ./dataprep/dense_panel_building_month.py         ====> building_month_fir
 
 for time model run in dataprep:  time_model_Xgboost.ipynb   (When we run the same .py file we are having a memory error)
 
-for forcasting and some visualizations run in dataprep:  time_model_Xgboost_forcasting_visualizatioons.ipynb
+for forcasting and some visualizations run in dataprep:  time_model_Xgboost_forcasting_visualizatioons.ipynb 
 ```
 
 
