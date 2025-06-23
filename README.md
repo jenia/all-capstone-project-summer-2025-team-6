@@ -73,6 +73,8 @@ python ./dataprep/main_evaluation_feat_eng.py              ====> eval_fire_Coord
 python ./dataprep/dense_panel_building_month.py         ====> building_month_fire_panel_feat_eng.csv
 
 for time model run in dataprep:  time_model_Xgboost.ipynb   (When we run the same .py file we are having a memory error)
+
+for forcasting and some visualizations run in dataprep:  time_model_Xgboost_forcasting_visualizatioons.ipynb
 ```
 
 
