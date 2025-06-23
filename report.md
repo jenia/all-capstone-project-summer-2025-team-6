@@ -8,7 +8,8 @@
  - [RandomForestClassifier](#randomforestclassifier)
  - [LGBMClassifier](#lgbmclassifier)
  - [Xgboost](#Xgboost)
-4. [Forcasting and visualization](#Forecasting and visualization)
+4. [Forcasting and visualizations] (#Forecasting and visualization)
+
 
 
 
